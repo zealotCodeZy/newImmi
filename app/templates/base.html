@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{% endblock %}</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 text-center mt-3">
+                <h1>新移民防踩坑</h1>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light border rounded mb-3">
+                    <div class="container-fluid justify-content-center">
+                        <ul class="navbar-nav mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/">租房黑名单</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/job-blacklist">找工黑名单</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/contact">联系我们</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <hr>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

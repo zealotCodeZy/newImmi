@@ -1,0 +1,58 @@
+body {
+    background-color: #f8f9fa;
+    margin: 0;
+    padding-top: 20px;
+}
+
+.container {
+    margin-top: 10px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+nav {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #ffffff;
+    text-align: center;
+}
+
+.nav-link {
+    margin: 0 15px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+hr {
+    border-top: 1px solid #ddd;
+}
+
+form, .content {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #ffffff;
+    margin-bottom: 20px;
+}
+
+label, input {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+button {
+    width: 100%;
+}
+
+img {
+    display: block;
+    margin: 20px auto;
+    max-width: 100%;
+    height: auto;
+}

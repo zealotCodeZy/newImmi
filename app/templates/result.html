@@ -1,10 +1,9 @@
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Results for {{ zipcode }}</title>
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block title %}Result{% endblock %}
+
+{% block content %}
     <h1>Results for {{ zipcode }}</h1>
     <ol>
     {% for address in addresses %}
@@ -15,5 +14,4 @@
     {% endfor %}
     </ol>
     <p><a href="{{ url_for('main.index') }}">Back to Search</a></p>
-</body>
-</html>
+{% endblock %}

@@ -1,13 +1,12 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Address Details</title>
-</head>
-<body>
-    <h1>Address Details</h1>
-    <p><strong>Zipcode:</strong> {{ info.zipcode }}</p>
-    <p><strong>Address:</strong> {{ info.address }}</p>
-    <p><strong>Content:</strong> {{ info.content }}</p>
+
+{% extends "base.html" %}
+
+{% block title %}Address Details{% endblock %}
+
+{% block content %}
+    <h1>该地址上黑名单详情</h1>
+    <p><strong>邮编:</strong> {{ info.zipcode }}</p>
+    <p><strong>地址:</strong> {{ info.address }}</p>
+    <p><strong>上黑名单原因:</strong> {{ info.content }}</p>
     <p><a href="{{ url_for('main.index') }}">New Search</a></p>
-</body>
-</html>
+{% endblock %}
