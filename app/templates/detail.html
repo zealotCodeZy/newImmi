@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Address Details</title>
+</head>
+<body>
+    <h1>Address Details</h1>
+    <p><strong>Zipcode:</strong> {{ info.zipcode }}</p>
+    <p><strong>Address:</strong> {{ info.address }}</p>
+    <p><strong>Content:</strong> {{ info.content }}</p>
+    <p><a href="{{ url_for('main.index') }}">New Search</a></p>
+</body>
+</html>
