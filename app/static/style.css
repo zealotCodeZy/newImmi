@@ -1,7 +1,8 @@
 body {
-    background-color: #f8f9fa;
+    background-color: #d9f2d9;  /* 浅绿色背景 */
     margin: 0;
     padding-top: 20px;
+    color: black;  /* 黑色文字 */
 }
 
 .container {
@@ -26,6 +27,14 @@ nav {
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
+    color: black;  /* 黑色文字 */
+    background-color: #ffffff;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-link:hover {
+    background-color: #98fb98;  /* 浅绿色背景 */
+    color: white;  /* 白色文字 */
 }
 
 hr {

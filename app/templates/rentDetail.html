@@ -1,12 +1,12 @@
 
 {% extends "base.html" %}
 
-{% block title %}Address Details{% endblock %}
+{% block title %}该地址详情{% endblock %}
 
 {% block content %}
-    <h1>该地址上黑名单详情</h1>
+    <h2>该地址上黑名单详情</h2>
     <p><strong>邮编:</strong> {{ info.zipcode }}</p>
     <p><strong>地址:</strong> {{ info.address }}</p>
     <p><strong>上黑名单原因:</strong> {{ info.content }}</p>
-    <p><a href="{{ url_for('main.index') }}">New Search</a></p>
+    <p><a href="{{ url_for('main.rentBlack') }}">返回，重新搜索</a></p>
 {% endblock %}

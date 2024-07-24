@@ -7,17 +7,25 @@ bp = Blueprint('main', __name__)
 def index():
     return render_template('index.html')
 
-@bp.route('/result', methods=['POST'])
-def result():
-    zipcode = request.form['zipcode']
-    addresses = utils.get_addresses_by_zipcode(zipcode)
-    return render_template('result.html', zipcode=zipcode, addresses=addresses)
+@bp.route('/rent')
+def rent():
+    return render_template('rent.html')
 
-@bp.route('/detail/<address>')
-def detail(address):
-    info = utils.get_info_by_address(address)
+@bp.route('/rentBlack')
+def rentBlack():
+    return render_template('rentBlack.html')
+
+@bp.route('/rentResult', methods=['POST'])
+def rentResult():
+    zipcode = request.form['zipcode']
+    addresses = utils.get_addresses_rent(zipcode)
+    return render_template('rentResult.html', zipcode=zipcode, addresses=addresses)
+
+@bp.route('/rentDetail/<address>')
+def rentDetail(address):
+    info = utils.get_info_rent(address)
     if info:
-        return render_template('detail.html', info=info)
+        return render_template('rentDetail.html', info=info)
     else:
         abort(404)
 

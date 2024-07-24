@@ -1,0 +1,17 @@
+
+{% extends "base.html" %}
+
+{% block title %}搜索结果{% endblock %}
+
+{% block content %}
+    <h2>在{{ zipcode }}的搜索结果，下面是上黑名单的地址：</h2>
+    <ol>
+    {% for address in addresses %}
+        <li>
+            {{ address }} 
+            <a href="{{ url_for('main.rentDetail', address=address) }}">点击查看详情</a>
+        </li>
+    {% endfor %}
+    </ol>
+    <p><a href="{{ url_for('main.rentBlack') }}">返回，重新搜索</a></p>
+{% endblock %}
