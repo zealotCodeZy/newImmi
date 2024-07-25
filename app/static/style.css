@@ -22,13 +22,19 @@ nav {
     text-align: center;
 }
 
+.navbar-nav {
+    display: flex;
+    justify-content: center;
+    gap: 1px; /* 调整每个框之间的距离 */
+}
+
 .nav-link {
-    margin: 0 15px;
-    padding: 10px;
+    padding: 10px 15px; /* 调整 padding */
     border: 1px solid #ddd;
     border-radius: 5px;
     color: black;  /* 黑色文字 */
     background-color: #ffffff;
+    white-space: nowrap; /* 确保文字在一行内 */
     transition: background-color 0.3s, color 0.3s;
 }
 
