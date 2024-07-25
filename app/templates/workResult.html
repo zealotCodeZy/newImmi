@@ -1,0 +1,20 @@
+
+{% extends "base.html" %}
+
+{% block title %}搜索结果{% endblock %}
+
+{% block content %}
+    <h2>公司名字包括{{ name }}的黑名单公司：</h2>
+    <ol>
+    {% for name in names %}
+        <li>
+            {{ name }} 
+            <a href="{{ url_for('main.workDetail', name=name) }}">点击查看详情</a>
+        </li>
+    {% endfor %}
+    </ol>
+    <br>
+    <br>
+    <br>
+    <p><a href="{{ url_for('main.workBlack') }}">返回，重新搜索</a></p>
+{% endblock %}

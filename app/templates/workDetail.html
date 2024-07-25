@@ -1,0 +1,15 @@
+
+{% extends "base.html" %}
+
+{% block title %}详情{% endblock %}
+
+{% block content %}
+    <h2>该公司上黑名单详情</h2>
+    <p><strong>公司名称:</strong> {{ info.name }}</p>
+    <p><strong>地址:</strong> {{ info.address }}</p>
+    <p><strong>上黑名单原因:</strong> {{ info.content }}</p>
+    <br>
+    <br>
+    <br>
+    <p><a href="{{ url_for('main.workBlack') }}">返回，重新搜索</a></p>
+{% endblock %}

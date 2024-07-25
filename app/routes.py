@@ -29,6 +29,28 @@ def rentDetail(address):
     else:
         abort(404)
 
+@bp.route('/work')
+def work():
+    return render_template('work.html')
+
+@bp.route('/workBlack')
+def workBlack():
+    return render_template('workBlack.html')
+
+@bp.route('/workResult', methods=['POST'])
+def workResult():
+    name = request.form['name']
+    names = utils.get_name_work(name)
+    return render_template('workResult.html', name=name, names=names)
+
+@bp.route('/workDetail/<name>')
+def workDetail(name):
+    info = utils.get_info_work(name)
+    if info:
+        return render_template('workDetail.html', info=info)
+    else:
+        abort(404)
+
 @bp.route('/contact')
 def about():
     return render_template('contact.html')
