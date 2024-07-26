@@ -4,7 +4,7 @@
 {% block title %}搜索结果{% endblock %}
 
 {% block content %}
-    <h2>公司名字包括{{ name }}的黑名单公司：</h2>
+    <h2>公司名字包含“{{ name }}”的黑名单：</h2>
     <ol>
     {% for name in names %}
         <li>
