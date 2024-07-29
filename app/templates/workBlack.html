@@ -4,17 +4,17 @@
 
 {% block content %}
     <form id="nameForm" action="/workResult" method="post" onsubmit="return validateForm()">
-        <label for="name">请在下面的框中输入想要查询的公司名称，看看这家公司是否已经有人踩坑</label>
-        <input type="text" id="name" name="name" class="form-control" required pattern="^[\u4e00-\u9fa5a-zA-Z\s]+$" title="请输入要查询的公司名称">
+        <label for="name">请在下面的框中输入想要查询的公司名称，看看这家公司是否已经有人踩坑。只能输入中英文，不允许其它任何字符和空格。</label>
+        <input type="text" id="name" name="name" class="form-control" required pattern="^[\u4e00-\u9fa5a-zA-Z]+$" title="请输入要查询的公司名称">
         <button type="submit" class="btn btn-primary">查询</button>
     </form>
 
     <script>
         function validateForm() {
             var name = document.getElementById("name").value;
-            var namePattern = /^[\u4e00-\u9fa5a-zA-Z\s]+$/;
+            var namePattern = /^[\u4e00-\u9fa5a-zA-Z]+$/;
             if (name === "" || !namePattern.test(name)) {
-                alert("请输入公司名称，中文或者英语字母，可以有空格");
+                alert("请输入公司名称，中文或者英语字母");
                 return false;
             }
             return true;

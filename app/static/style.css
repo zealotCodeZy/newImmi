@@ -13,16 +13,20 @@ h1 {
     text-align: center;
     margin-bottom: 10px;
     font-size: 2em; /* 增大字体 */
+    background-color: #ffffff; /* 背景框颜色 */
+    padding: 10px; /* 内边距 */
+    border-radius: 10px; /* 圆角 */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* 轻微的阴影效果 */
 }
 
 nav {
     padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #ffffff;
+    border-radius: 10px; /* 圆角 */
+    background-color: #ffffff; /* 背景框颜色 */
     text-align: center;
     overflow: hidden;  /* 确保内容不会溢出 */
     white-space: nowrap; /* 确保导航条内容不换行 */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* 轻微的阴影效果 */
 }
 
 .navbar-nav {
@@ -34,7 +38,7 @@ nav {
 .nav-link {
     padding: 5px 10px; /* 调整 padding */
     border: 1px solid #ddd;
-    border-radius: 5px;
+    border-radius: 5px; /* 圆角 */
     color: black;  /* 黑色文字 */
     background-color: #ffffff;
     white-space: nowrap; /* 确保文字在一行内 */
@@ -53,12 +57,13 @@ hr {
     border-top: 1px solid #ddd;
 }
 
-form, .content {
+.content, form {
     padding: 20px;
     border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #ffffff;
+    border-radius: 10px; /* 圆角 */
+    background-color: #ffffff; /* 背景框颜色 */
     margin-bottom: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* 轻微的阴影效果 */
 }
 
 label, input {
@@ -76,4 +81,44 @@ img {
     margin: 20px auto;
     max-width: 100%;
     height: auto;
+    border-radius: 10px; /* 图片的圆角效果 */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* 轻微的阴影效果 */
+}
+
+.content {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px; /* 圆角 */
+    background-color: #ffffff; /* 背景框颜色 */
+    margin-bottom: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* 轻微的阴影效果 */
+}
+.result-list {
+    list-style-position: inside; /* 保留默认序号 */
+    padding: 0;
+    margin: 0;
+}
+
+.result-list li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd; /* 添加分隔线 */
+}
+
+.result-list li:nth-child(odd) {
+    background-color: #f9f9f9; /* 奇数行背景色 */
+}
+
+.result-list li:nth-child(even) {
+    background-color: #e6ffe6; /* 偶数行背景色（浅绿色） */
+}
+
+.result-list a {
+    margin-left: 10px;
+    text-decoration: none; /* 去掉链接的下划线 */
+    color: #007bff; /* 蓝色链接文字 */
+    transition: color 0.3s; /* 添加渐变效果 */
+}
+
+.result-list a:hover {
+    color: #0056b3; /* 鼠标悬停时的链接颜色 */
 }

@@ -4,7 +4,7 @@
 
 {% block content %}
     <form id="zipcodeForm" action="/rentResult" method="post" onsubmit="return validateForm()">
-        <label for="zipcode">请在下面的框中输入想要租的房子的邮编(zip code，5位数数字)，看看这套房子是否已经有人踩坑</label>
+        <label for="zipcode">请在下面的框中输入想要租的房子的邮编(zip code，5位数数字)，看看这套房子是否已经有人踩坑。</label>
         <input type="text" id="zipcode" name="zipcode" class="form-control" required pattern="^\d{5}$" title="请输入5位数字的美国邮编(zip code)">
         <button type="submit" class="btn btn-primary">查询</button>
     </form>

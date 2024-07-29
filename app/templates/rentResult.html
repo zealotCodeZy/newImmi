@@ -5,7 +5,7 @@
 
 {% block content %}
     <h2>在{{ zipcode }}地址范围，黑名单房子如下：</h2>
-    <ol>
+    <ol class="result-list">
     {% for address in addresses %}
         <li>
             {{ address }} 
@@ -16,5 +16,5 @@
     <br>
     <br>
     <br>
-    <p><a href="{{ url_for('main.rentBlack') }}">返回，重新搜索</a></p>
+    <p><a href="{{ url_for('main.rentBlack') }}" class="btn btn-secondary">返回，重新搜索</a></p>
 {% endblock %}
