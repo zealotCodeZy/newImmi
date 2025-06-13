@@ -1,55 +1,67 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% block title %}{% endblock %}</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{% endblock %}</title>
+  <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8 text-center mt-3">
-                <h1>新移民第一站</h1>
-            </div>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <nav class="navbar navbar-expand-lg navbar-light bg-light border rounded mb-3">
-                    <div class="container-fluid justify-content-center">
-                        <ul class="navbar-nav mb-2 mb-lg-0">
-                            <li class="nav-item">
-                                <a class="nav-link" href="/">新移民必看</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/rent">租房防踩坑</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/rentBlack">租房黑名单</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/work">找工防踩坑</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/workBlack">找工黑名单</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/contact">联系我们</a>
-                            </li>
-                        </ul>
-                    </div>
-                </nav>
-                <hr>
-            </div>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="content">
-                    {% block content %}{% endblock %}
-                </div>
-            </div>
-        </div>
+  <!-- 顶部黑色导航 -->
+  <header class="navbar">
+    <a href="/" class="logo">新移民第一站</a>
+    副标题：欢迎来到新移民第一站，这里有最全的攻略帮你快速开局
+    <nav class="nav-links">
+      <a href="/rent">租房</a>
+      <a href="/rentBlack">租房黑名单</a>
+      <a href="/tel">电话卡</a>
+      <a href="/drive">驾照</a>
+      <a href="/bank">银行卡</a>
+      <a href="/id">身份</a>
+      <a href="/work">找工</a>
+      <a href="/workBlack">找工黑名单</a>
+      <a href="/contact">联系我们</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <!-- 轮播图 -->
+    <div class="carousel">
+      <img src="{{ url_for('static', filename='images/Image Jun 13, 2025, 04_59_37 PM.png') }}" alt="Slide 1">
+      <img src="{{ url_for('static', filename='images/mage Jun 13, 2025, 05_00_45 PM.png') }}" alt="Slide 2">
+      <img src="{{ url_for('static', filename='images/Image Jun 13, 2025, 05_08_47 PM.png') }}" alt="Slide 3">
+      <div class="carousel-indicators">
+        <span data-slide="0" class="active"></span>
+        <span data-slide="1"></span>
+        <span data-slide="2"></span>
+      </div>
     </div>
+
+    <!-- 页面主体内容 -->
+    <div class="content">
+      {% block content %}{% endblock %}
+    </div>
+  </main>
+
+  <!-- 轮播切换脚本（示例，需自行改为你用的 JS 逻辑） -->
+  <script>
+    (function(){
+      const slides = document.querySelectorAll('.carousel img');
+      const dots = document.querySelectorAll('.carousel-indicators span');
+      let idx = 0, len = slides.length;
+      function show(n){
+        slides.forEach((s,i)=> s.style.display = i===n ? 'block' : 'none');
+        dots.forEach((d,i)=> d.classList.toggle('active', i===n));
+      }
+      function next(){
+        idx = (idx+1)%len; show(idx);
+      }
+      dots.forEach(d=>{
+        d.onclick = ()=> { idx = +d.dataset.slide; show(idx); };
+      });
+      show(0);
+      setInterval(next, 5000);
+    })();
+  </script>
 </body>
 </html>
