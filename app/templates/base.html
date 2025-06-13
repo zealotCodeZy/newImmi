@@ -10,7 +10,9 @@
   <!-- 顶部黑色导航 -->
   <header class="navbar">
     <a href="/" class="logo">新移民第一站</a>
-    副标题：欢迎来到新移民第一站，这里有最全的攻略帮你快速开局
+    <small class="subtitle">
+        这里有最全的攻略帮你快速开局。只放干货，从不扯淡。
+    </small>
     <nav class="nav-links">
       <a href="/rent">租房</a>
       <a href="/rentBlack">租房黑名单</a>
@@ -27,9 +29,9 @@
   <main class="container">
     <!-- 轮播图 -->
     <div class="carousel">
-      <img src="{{ url_for('static', filename='images/Image Jun 13, 2025, 04_59_37 PM.png') }}" alt="Slide 1">
-      <img src="{{ url_for('static', filename='images/mage Jun 13, 2025, 05_00_45 PM.png') }}" alt="Slide 2">
-      <img src="{{ url_for('static', filename='images/Image Jun 13, 2025, 05_08_47 PM.png') }}" alt="Slide 3">
+      <a href="/promo/bank"><img src="{{ url_for('static', filename='images/Image Jun 13, 2025, 04_59_37 PM.png') }}" alt="Slide 1"></a>
+      <a href="/promo/credit"><img src="{{ url_for('static', filename='images/mage Jun 13, 2025, 05_00_45 PM.png') }}" alt="Slide 2"></a>
+      <a href="/promo/sim"><img src="{{ url_for('static', filename='images/Image Jun 13, 2025, 05_08_47 PM.png') }}" alt="Slide 3"></a>
       <div class="carousel-indicators">
         <span data-slide="0" class="active"></span>
         <span data-slide="1"></span>

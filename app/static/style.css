@@ -7,12 +7,10 @@
     --color-text: #000;
     --color-primary-bg: #000;
     --color-primary-text: #fff;
-    --color-accent: #D4AF37; /* 高端金色强调 */
+    --color-accent: #D4AF37;
 }
 
-* {
-    box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
     margin: 0;
@@ -22,13 +20,17 @@ body {
     color: var(--color-text);
 }
 
-/* 顶部黑色导航条 + 金色底边 */
+/* 顶部导航：网格布局，实现多行居中 */
 .navbar {
     width: 100%;
     background-color: var(--color-primary-bg);
     color: var(--color-primary-text);
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+        "logo nav"
+        "subtitle nav";
     align-items: center;
     padding: 10px 20px;
     position: sticky;
@@ -37,14 +39,18 @@ body {
     border-bottom: 3px solid var(--color-accent);
 }
 .navbar .logo {
+    grid-area: logo;
     font-size: 1.5em;
     font-weight: 700;
     color: var(--color-primary-text);
     text-decoration: none;
+    margin: 0;
 }
 .navbar .nav-links {
+    grid-area: nav;
     display: flex;
     gap: 20px;
+    justify-self: end;
 }
 .navbar .nav-links a {
     color: var(--color-primary-text);
@@ -58,8 +64,14 @@ body {
     color: var(--color-primary-bg);
     background-color: var(--color-accent);
 }
+.navbar .subtitle {
+    grid-area: subtitle;
+    font-size: 0.85em;
+    color: var(--color-primary-text);
+    margin: 8px 0 0 0;
+}
 
-/* 头部区域：左右两栏 */
+/* 头部区域 */
 .header {
     display: flex;
     flex-wrap: wrap;
@@ -67,8 +79,7 @@ body {
     color: var(--color-primary-text);
     padding: 40px 20px;
 }
-.header-left,
-.header-right {
+.header-left, .header-right {
     flex: 1;
     min-width: 280px;
 }
@@ -94,96 +105,35 @@ body {
     align-items: flex-start;
     padding-left: 20px;
 }
-.header-right a {
-    font-size: 1.1em;
-    color: var(--color-primary-text);
-    text-decoration: none;
-    background-color: transparent;
-    padding: 8px 12px;
-    border-left: 4px solid transparent;
-    transition: border-color 0.3s, background 0.3s;
-}
 .header-right a:hover {
     border-color: var(--color-accent);
     background-color: rgba(212,175,55,0.1);
 }
 
-/* 页面容器 */
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-}
+/* 容器 */
+.container { max-width: 1200px; margin: 0 auto; padding: 20px; }
 
-/* 轮播图样式 - 最大宽度800px，按比例缩小，去掉大 margin */
+/* 轮播 */
 .carousel {
     position: relative;
-    width: 100%;
-    max-width: 800px;    /* 最大宽度800px */
-    margin: 20px auto;   /* 缩小 margin */
+    width: 100%; max-width: 800px; margin: 20px auto;
     overflow: hidden;
     border: 3px solid var(--color-accent);
     border-radius: 8px;
 }
-.carousel img {
-    width: 100%;        /* 宽度100% */
-    height: auto;       /* 高度自适应 */
-    object-fit: contain;/* 保持完整比例 */
-    display: block;
-}
-
-/* 去掉轮播说明文字，改为链接样式 */
-.carousel-caption {
-    display: none;
-}
-
-/* 左右切换按钮 */
-.carousel-button {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.6);
-    border: none;
-    color: var(--color-accent);
-    font-size: 1.8em;
-    padding: 0.2em 0.5em;
-    cursor: pointer;
-    z-index: 10;
-    border-radius: 4px;
-}
+.carousel img { width: 100%; height: auto; object-fit: contain; display: block; }
+.carousel-caption { display: none; }
+.carousel-button { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.6); border: none; color: var(--color-accent); font-size: 1.8em; padding: 0.2em 0.5em; cursor: pointer; z-index: 10; border-radius: 4px; }
 .carousel-button.left { left: 10px; }
 .carousel-button.right { right: 10px; }
+.carousel-indicators { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; }
+.carousel-indicators span { width: 12px; height: 12px; background: rgba(255,255,255,0.5); border-radius: 50%; cursor: pointer; transition: background 0.3s; }
+.carousel-indicators .active { background: var(--color-accent); }
 
-/* 指示器圆点 */
-.carousel-indicators {
-    position: absolute;
-    bottom: 12px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 8px;
-}
-.carousel-indicators span {
-    width: 12px;
-    height: 12px;
-    background-color: rgba(255,255,255,0.5);
-    border-radius: 50%;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-.carousel-indicators .active {
-    background-color: var(--color-accent);
-}
-
-/* 响应式调整 */
+/* 响应式 */
 @media (max-width: 768px) {
-    .header {
-        flex-direction: column;
-        text-align: center;
-    }
-    .header-left, .header-right {
-        padding: 10px 0;
-    }
-    .header-right a { padding: 6px 0; }
+    .navbar .nav-links { margin-left: 0; }
     .carousel { max-width: 95vw; margin: 10px auto; }
+    .header { flex-direction: column; text-align: center; }
+    .header-left, .header-right { padding: 10px 0; }
 }
