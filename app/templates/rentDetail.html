@@ -4,6 +4,7 @@
 {% block title %}该地址详情{% endblock %}
 
 {% block content %}
+<div class="article-content">
     <h2>该地址上黑名单详情</h2>
     <p><strong>邮编:</strong> {{ info.zipcode }}</p>
     <p><strong>地址:</strong> {{ info.address }}</p>
@@ -11,5 +12,6 @@
     <br>
     <br>
     <br>
-    <p><a href="{{ url_for('main.rentBlack') }}" class="btn btn-secondary">返回，重新搜索</a></p>
+    <p class="center-block no-indent"><a href="{{ url_for('main.rentBlack') }}" class="btn btn-primary">返回，重新搜索</a></p>
+</div>
 {% endblock %}

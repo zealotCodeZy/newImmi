@@ -3,10 +3,13 @@
 {% block title %}请在下面的框中输入{% endblock %}
 
 {% block content %}
+<div class="article-content">
+  <h2 class="article-title">租房黑名单查询</h2>
     <form id="zipcodeForm" action="/rentResult" method="post" onsubmit="return validateForm()">
-        <label for="zipcode">请在下面的框中输入想要租的房子的邮编(zip code，5位数数字)，看看这套房子是否已经有人踩坑。</label>
-        <input type="text" id="zipcode" name="zipcode" class="form-control" required pattern="^\d{5}$" title="请输入5位数字的美国邮编(zip code)">
-        <button type="submit" class="btn btn-primary">查询</button>
+        <p><label for="zipcode">请在下面的框中输入目标房子所在地的邮编(zip code，5位数数字)，看看在这个地区的黑名单中有没有这套房。</label></p>
+        <p class="center-block no-indent"><input type="text" id="zipcode" name="zipcode" class="form-control" required pattern="^\d{5}$" title="请输入5位数字的美国邮编(zip code)"></p>
+        <br>
+        <p class="center-block no-indent"><button type="submit" class="btn btn-primary">查询</button></p>
     </form>
 
     <script>
@@ -20,4 +23,5 @@
             return true;
         }
     </script>
+</div>
 {% endblock %}

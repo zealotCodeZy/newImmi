@@ -179,3 +179,40 @@ body {
     font-size: 0.65em;
     border-top: 1px solid rgba(255,255,255,0.1);
 }
+.btn {
+    display: inline-block;
+    padding: 4px 12px;           /* 缩小垂直内边距，使高度与输入框一致 */
+    background-color: var(--color-accent);
+    color: var(--color-primary-bg);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1em;              /* 与输入框文字大小一致 */
+    line-height: 1.5em;          /* 保持按钮文本居中 */
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+.btn:hover {
+    background-color: #FFD700;  /* 更亮的金色 */
+    color: var(--color-primary-bg);
+}
+/* 用于包含按钮的段落不缩进 */
+/* 用于包含按钮的段落不缩进 */
+p.no-indent {
+    text-indent: 0;
+    margin: 0;
+}
+
+/* 居中容器 - 使用 Flexbox 水平居中按钮 */
+.center-block {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+}
+
+
+
+
+
+
