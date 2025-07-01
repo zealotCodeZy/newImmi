@@ -1,0 +1,16 @@
+# Python 虚拟环境
+venv/
+.env/
+
+# VS Code 设置
+.vscode/
+
+# Python 缓存
+__pycache__/
+*.py[cod]
+
+# 日志文件
+*.log
+
+# Mac 系统文件
+.DS_Store
