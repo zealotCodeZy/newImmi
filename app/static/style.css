@@ -211,6 +211,192 @@ p.no-indent {
     margin: 0;
 }
 
+/* 认证页面样式 */
+.auth-container {
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #f9f9f9;
+    border-left: 4px solid var(--color-accent);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.auth-container h2 {
+    text-align: center;
+    color: var(--color-accent);
+    font-weight: 700;
+    margin-bottom: 30px;
+    font-size: 1.8em;
+}
+
+.auth-form {
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #333;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    font-size: 1em;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px rgba(212,175,55,0.1);
+}
+
+.form-row {
+    display: flex;
+    gap: 15px;
+}
+
+.form-row .form-group {
+    flex: 1;
+}
+
+.btn-primary {
+    background-color: var(--color-accent);
+    color: var(--color-primary-bg);
+    border: none;
+    padding: 12px 24px;
+    font-size: 1.1em;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%;
+}
+
+.btn-primary:hover {
+    background-color: #FFD700;
+}
+
+.btn-large {
+    padding: 15px 30px;
+    font-size: 1.2em;
+}
+
+.auth-links {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.auth-links a {
+    color: var(--color-accent);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.auth-links a:hover {
+    text-decoration: underline;
+}
+
+/* 会员页面样式 */
+.membership-info {
+    background-color: #fff;
+    padding: 25px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    border: 2px solid #eee;
+}
+
+.membership-info h3 {
+    color: var(--color-accent);
+    font-weight: 700;
+    margin-bottom: 15px;
+    font-size: 1.3em;
+}
+
+.membership-info ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 20px;
+}
+
+.membership-info li {
+    padding: 8px 0;
+    font-size: 1.1em;
+    color: #333;
+}
+
+.price-info {
+    text-align: center;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 6px;
+    border: 2px solid var(--color-accent);
+}
+
+.price-info h4 {
+    color: var(--color-accent);
+    font-size: 1.5em;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.price-info p {
+    color: #666;
+    margin: 0;
+}
+
+/* 警告消息样式 */
+.alert {
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.alert-warning {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeaa7;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .auth-container {
+        margin: 20px;
+        padding: 20px;
+    }
+    
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+    
+    .membership-info {
+        padding: 15px;
+    }
+}
+
 
 
 

@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}会员购买{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ 'danger' if category == 'error' else category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    
+    <div class="membership-info">
+        <h3>会员特权</h3>
+        <ul>
+            <li>✅ 访问租房黑名单查询功能</li>
+            <li>✅ 访问找工黑名单查询功能</li>
+            <li>✅ 专属客服支持</li>
+        </ul>
+        
+        <div class="price-info">
+            <h4>会员价格：</h4>
+            <label><input type="radio" name="plan" value="year" checked> 年付 $9.99/年</label>
+            <label style="margin-left:20px;"><input type="radio" name="plan" value="month"> 月付 $1.99/月</label>
+            <p>请选择付费方式</p>
+        </div>
+    </div>
+    
+    <form id="payment-form" class="auth-form">
+        <div id="payment-element"><!-- Stripe Elements will be inserted here --></div>
+        <button id="submit" class="btn btn-primary btn-large" type="submit">立即购买会员</button>
+        <div id="payment-message" class="hidden"></div>
+    </form>
+    
+    <div class="auth-links">
+        <p><a href="{{ url_for('main.index') }}">返回首页</a></p>
+    </div>
+</div>
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+let stripe, elements;
+let plan = 'year';
+
+function getSelectedPlan() {
+    return document.querySelector('input[name="plan"]:checked').value;
+}
+
+async function initialize() {
+    plan = getSelectedPlan();
+    const {clientSecret, publishableKey} = await fetch("/auth/create-payment-intent", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({plan})
+    }).then(r => r.json());
+    stripe = Stripe(publishableKey);
+    elements = stripe.elements({clientSecret});
+    const paymentElement = elements.create("payment");
+    paymentElement.mount("#payment-element");
+}
+
+document.querySelectorAll('input[name="plan"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+        initialize();
+    });
+});
+
+initialize();
+
+const form = document.getElementById("payment-form");
+form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    document.getElementById("submit").disabled = true;
+    const {error} = await stripe.confirmPayment({
+        elements,
+        confirmParams: {
+            return_url: window.location.origin + "/auth/membership"
+        }
+    });
+    if (error) {
+        document.getElementById("payment-message").textContent = error.message;
+        document.getElementById("payment-message").classList.remove("hidden");
+        document.getElementById("submit").disabled = false;
+    }
+});
+</script>
+<style>
+#payment-message.hidden { display: none; }
+#payment-message { color: red; margin-top: 10px; }
+</style>
+{% endblock %} 
