@@ -25,8 +25,10 @@ def create_app():
         # 导入并注册蓝图
         from . import routes
         from . import auth
+        from . import admin
         app.register_blueprint(routes.bp)
         app.register_blueprint(auth.bp, url_prefix='/auth')
+        app.register_blueprint(admin.bp, url_prefix='/admin')
         
         # 创建数据库表
         db.create_all()

@@ -1,18 +1,33 @@
-
 {% extends "base.html" %}
 
 {% block title %}搜索结果{% endblock %}
 
 {% block content %}
-    <h2>公司名字包含“{{ name }}”的黑名单：</h2>
-    <ol class="result-list">
-    {% for name in names %}
-        <li>
-            {{ name }} 
-            <a href="{{ url_for('main.workDetail', name=name) }}">点击查看详情</a>
-        </li>
-    {% endfor %}
-    </ol>
+    <h2>公司名字包含"{{ name }}"的黑名单：</h2>
+    
+    {% if names %}
+        <ol class="result-list">
+        {% for name in names %}
+            <li>
+                {{ name }} 
+                <a href="{{ url_for('main.workDetail', name=name) }}">点击查看详情</a>
+            </li>
+        {% endfor %}
+        </ol>
+    {% else %}
+        <div class="no-results">
+            <h3>🎉 好消息！</h3>
+            <p>没有找到包含 "<strong>{{ name }}</strong>" 的黑名单公司。</p>
+            <p>这意味着该公司目前没有在我们的黑名单中，但仍建议您：</p>
+            <ul>
+                <li>仔细了解公司背景和经营状况</li>
+                <li>查看公司评价和员工反馈</li>
+                <li>注意合同条款和薪资待遇</li>
+                <li>保留所有沟通和合同文件</li>
+            </ul>
+        </div>
+    {% endif %}
+    
     <br>
     <br>
     <br>
