@@ -89,7 +89,7 @@ def add_sample_payments():
         
         sample_payments = [
             {'user_id': 1, 'amount': 9.99, 'status': 'completed'},
-            {'user_id': 1, 'amount': 1.99, 'status': 'completed'},
+            {'user_id': 1, 'amount': 0.99, 'status': 'completed'},
             {'user_id': 2, 'amount': 9.99, 'status': 'completed'},
             {'user_id': 4, 'amount': 9.99, 'status': 'completed'},
         ]
