@@ -1,7 +1,8 @@
 from flask import render_template, request, Blueprint, abort, redirect, url_for, flash
 from flask_login import login_required, current_user
-from . import utils
 from functools import wraps
+from .models import RentInfo, WorkInfo
+from . import db
 
 bp = Blueprint('main', __name__)
 
@@ -35,14 +36,16 @@ def rentBlack():
 @membership_required
 def rentResult():
     zipcode = request.form['zipcode']
-    addresses = utils.get_addresses_rent(zipcode)
+    # 查询所有该zipcode的黑名单房源地址
+    addresses = [r.address for r in RentInfo.query.filter_by(zipcode=zipcode).all()]
     return render_template('rentResult.html', zipcode=zipcode, addresses=addresses)
 
 @bp.route('/rentDetail/<address>')
 @login_required
 @membership_required
 def rentDetail(address):
-    info = utils.get_info_rent(address)
+    # 查询该地址的黑名单详情
+    info = RentInfo.query.filter_by(address=address).first()
     if info:
         return render_template('rentDetail.html', info=info)
     else:
@@ -61,12 +64,14 @@ def workBlack():
 @bp.route('/workResult', methods=['POST'])
 def workResult():
     name = request.form['name']
-    names = utils.get_name_work(name)
+    # 查询所有公司名包含name的黑名单公司
+    names = [w.name for w in WorkInfo.query.filter(WorkInfo.name.ilike(f'%{name}%')).all()]
     return render_template('workResult.html', name=name, names=names)
 
 @bp.route('/workDetail/<name>')
 def workDetail(name):
-    info = utils.get_info_work(name)
+    # 查询公司名为name的黑名单详情
+    info = WorkInfo.query.filter_by(name=name).first()
     if info:
         return render_template('workDetail.html', info=info)
     else:

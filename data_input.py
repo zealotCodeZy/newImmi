@@ -17,7 +17,6 @@ os.environ['SECRET_KEY'] = secrets.token_hex(32)
 os.environ['STRIPE_SECRET_KEY'] = 'sk_test_51ABC123DEF456GHI789JKL012MNO345PQR678STU901VWX234YZA567BCD890EFG'
 os.environ['STRIPE_PUBLISHABLE_KEY'] = 'pk_test_51ABC123DEF456GHI789JKL012MNO345PQR678STQ901VWX234YZA567BCD890EFG'
 os.environ['STRIPE_WEBHOOK_SECRET'] = 'whsec_1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef'
-os.environ['DATABASE_URL'] = 'sqlite:///instance/membership.db'
 os.environ['FLASK_ENV'] = 'development'
 
 from app import create_app, db

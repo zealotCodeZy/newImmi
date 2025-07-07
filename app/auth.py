@@ -10,6 +10,7 @@ import stripe
 import os
 import stripe.error
 import logging
+import traceback
 
 bp = Blueprint('auth', __name__)
 
@@ -47,7 +48,16 @@ def register():
         user.email = email
         user.set_password(password)
         db.session.add(user)
-        db.session.commit()
+        try:
+            print('即将 commit')
+            db.session.commit()
+            print('commit 完成')
+        except Exception as e:
+            print('commit 失败:', e)
+            print(traceback.format_exc())
+            db.session.rollback()
+            flash('注册失败，数据库写入异常', 'error')
+            return render_template('auth/register.html')
         
         flash('注册成功！请登录', 'success')
         return redirect(url_for('auth.login'))
