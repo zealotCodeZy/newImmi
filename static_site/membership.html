@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>会员购买</title>
+  <link href="/static/style.css" rel="stylesheet">
+</head>
+<body>
+  <header class="navbar">
+    <a href="/" class="logo">新移民防踩坑</a>
+    <small class="subtitle">这里有最全的攻略帮你快速开局。只放干货，杜绝踩坑。</small>
+    <nav class="nav-links">
+      <a href="/work.html">找工</a>
+      <a href="/workBlack.html">找工黑名单</a>
+      <a href="/rent.html">租房</a>
+      <a href="/rentBlack.html">租房黑名单</a>
+      <a href="/tel.html">电话卡</a>
+      <a href="/bank.html">银行卡</a>
+      <a href="/drive.html">驾照</a>
+      <a href="/id.html">身份</a>
+      <a href="/contact.html">联系我们</a>
+      <a href="/res.html">免责与隐私</a>
+      <a href="/login.html">登录</a>
+      <a href="/register.html">注册</a>
+    </nav>
+  </header>
+  <main class="container">
+    <div class="auth-container">
+      <div class="membership-info">
+        <h3>会员特权</h3>
+        <ul>
+          <li>✅ 访问租房黑名单查询功能</li>
+          <li>✅ 访问找工黑名单查询功能</li>
+          <li>✅ 专属客服支持</li>
+        </ul>
+        <div class="price-info">
+          <h4>会员价格：</h4>
+          <label><input type="radio" name="plan" value="year" checked> 年付 $9.99/年</label>
+          <label style="margin-left:20px;"><input type="radio" name="plan" value="month"> 月付 $0.99/月</label>
+          <p>请选择付费方式</p>
+        </div>
+      </div>
+      <form id="payment-form" class="auth-form">
+        <div id="payment-element"><!-- Stripe Elements will be inserted here --></div>
+        <button id="submit" class="btn btn-primary btn-large" type="submit">立即购买会员</button>
+        <div id="payment-message" class="hidden"></div>
+      </form>
+      <div class="auth-links">
+        <p><a href="/index.html">返回首页</a></p>
+      </div>
+    </div>
+  </main>
+  <script src="https://js.stripe.com/v3/"></script>
+  <script>
+let stripe, elements;
+let plan = 'year';
+function getSelectedPlan() {
+    return document.querySelector('input[name="plan"]:checked').value;
+}
+async function initialize() {
+    plan = getSelectedPlan();
+    const {clientSecret, publishableKey} = await fetch("http://localhost:5002/api/create-payment-intent", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({plan})
+    }).then(r => r.json());
+    stripe = Stripe(publishableKey);
+    elements = stripe.elements({clientSecret});
+    const paymentElement = elements.create("payment");
+    paymentElement.mount("#payment-element");
+}
+document.querySelectorAll('input[name="plan"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+        initialize();
+    });
+});
+initialize();
+const form = document.getElementById("payment-form");
+form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    document.getElementById("submit").disabled = true;
+    const {error} = await stripe.confirmPayment({
+        elements,
+        confirmParams: {
+            return_url: window.location.origin + "/membership.html"
+        }
+    });
+    if (error) {
+        document.getElementById("payment-message").textContent = error.message;
+        document.getElementById("payment-message").classList.remove("hidden");
+        document.getElementById("submit").disabled = false;
+    }
+});
+  </script>
+  <style>
+#payment-message.hidden { display: none; }
+#payment-message { color: red; margin-top: 10px; }
+  </style>
+  <footer class="site-footer">
+    Copyright ©2025 新移民第一站 All Rights Reserved
+  </footer>
+</body>
+</html> 

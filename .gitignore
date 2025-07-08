@@ -1,9 +1,18 @@
-# Python 虚拟环境
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
 venv/
-.env/
+
+# 环境变量文件
+.env
+.env.*
 
 # 环境变量文件 - 保护敏感信息
-.env
 .env.local
 .env.production
 .env.staging
@@ -11,10 +20,6 @@ venv/
 
 # VS Code 设置
 .vscode/
-
-# Python 缓存
-__pycache__/
-*.py[cod]
 
 # 日志文件
 *.log

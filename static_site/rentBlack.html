@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>租房黑名单查询</title>
+  <link href="/static/style.css" rel="stylesheet">
+</head>
+<body>
+  <header class="navbar">
+    <a href="/" class="logo">新移民防踩坑</a>
+    <small class="subtitle">这里有最全的攻略帮你快速开局。只放干货，杜绝踩坑。</small>
+    <nav class="nav-links">
+      <a href="/work.html">找工</a>
+      <a href="/workBlack.html">找工黑名单</a>
+      <a href="/rent.html">租房</a>
+      <a href="/rentBlack.html">租房黑名单</a>
+      <a href="/tel.html">电话卡</a>
+      <a href="/bank.html">银行卡</a>
+      <a href="/drive.html">驾照</a>
+      <a href="/id.html">身份</a>
+      <a href="/contact.html">联系我们</a>
+      <a href="/res.html">免责与隐私</a>
+      <a href="/login.html">登录</a>
+      <a href="/register.html">注册</a>
+    </nav>
+  </header>
+  <main class="container">
+    <div class="article-content">
+      <h2 class="article-title">租房黑名单查询</h2>
+      <form id="zipcodeForm" class="auth-form">
+        <p><label for="zipcode">请在下面的框中输入目标房子所在地的邮编(zip code，5位数数字)，看看在这个地区的黑名单中有没有这套房。</label></p>
+        <p class="center-block no-indent"><input type="text" id="zipcode" name="zipcode" class="form-control" required pattern="^\d{5}$" title="请输入5位数字的美国邮编(zip code)"></p>
+        <br>
+        <p class="center-block no-indent"><button type="submit" class="btn btn-primary">查询</button></p>
+      </form>
+      <div id="result" style="margin-top:20px;"></div>
+    </div>
+  </main>
+  <footer class="site-footer">
+    Copyright ©2025 新移民第一站 All Rights Reserved
+  </footer>
+  <script>
+    document.getElementById('zipcodeForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const zipcode = document.getElementById('zipcode').value.trim();
+      const resultDiv = document.getElementById('result');
+      resultDiv.innerHTML = '';
+      if (!/^\d{5}$/.test(zipcode)) {
+        alert('请输入5位数字的美国邮编(zip code)');
+        return;
+      }
+      resultDiv.textContent = '查询中...';
+      try {
+        const resp = await fetch(`http://localhost:5002/api/rent?zipcode=${zipcode}`);
+        const data = await resp.json();
+        if (data.success && data.data.addresses.length > 0) {
+          resultDiv.innerHTML = '<b>黑名单房源地址：</b><ul>' + data.data.addresses.map(addr => `<li>${addr}</li>`).join('') + '</ul>';
+        } else {
+          resultDiv.innerHTML = '<span style="color:green;">该地区暂无黑名单房源！</span>';
+        }
+      } catch (err) {
+        resultDiv.innerHTML = '<span style="color:red;">查询失败，请稍后重试。</span>';
+      }
+    });
+  </script>
+</body>
+</html>

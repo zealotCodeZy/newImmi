@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>找工黑名单查询</title>
+  <link href="/static/style.css" rel="stylesheet">
+</head>
+<body>
+  <header class="navbar">
+    <a href="/" class="logo">新移民防踩坑</a>
+    <small class="subtitle">这里有最全的攻略帮你快速开局。只放干货，杜绝踩坑。</small>
+    <nav class="nav-links">
+      <a href="/work.html">找工</a>
+      <a href="/workBlack.html">找工黑名单</a>
+      <a href="/rent.html">租房</a>
+      <a href="/rentBlack.html">租房黑名单</a>
+      <a href="/tel.html">电话卡</a>
+      <a href="/bank.html">银行卡</a>
+      <a href="/drive.html">驾照</a>
+      <a href="/id.html">身份</a>
+      <a href="/contact.html">联系我们</a>
+      <a href="/res.html">免责与隐私</a>
+      <a href="/login.html">登录</a>
+      <a href="/register.html">注册</a>
+    </nav>
+  </header>
+  <main class="container">
+    <div class="article-content">
+      <h2 class="article-title">找工黑名单查询</h2>
+      <form id="nameForm" class="auth-form">
+        <label for="name">请在下面的框中输入想要查询的公司名称，看看这家公司是否已经有人踩坑。只能输入中英文，不允许其它任何字符和空格。</label>
+        <input type="text" id="name" name="name" class="form-control" required pattern="^[\u4e00-\u9fa5a-zA-Z]+$" title="请输入要查询的公司名称">
+        <button type="submit" class="btn btn-primary">查询</button>
+      </form>
+      <div id="result" style="margin-top:20px;"></div>
+    </div>
+  </main>
+  <footer class="site-footer">
+    Copyright ©2025 新移民第一站 All Rights Reserved
+  </footer>
+  <script>
+    document.getElementById('nameForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const resultDiv = document.getElementById('result');
+      resultDiv.innerHTML = '';
+      if (!/^[\u4e00-\u9fa5a-zA-Z]+$/.test(name)) {
+        alert('请输入公司名称，中文或者英语字母');
+        return;
+      }
+      resultDiv.textContent = '查询中...';
+      try {
+        const resp = await fetch(`http://localhost:5002/api/workDetail/${encodeURIComponent(name)}`);
+        const data = await resp.json();
+        if (data.success) {
+          resultDiv.innerHTML = `<b>公司名称：</b>${data.data.name}<br><b>地址：</b>${data.data.address}<br><b>详情：</b>${data.data.content}`;
+        } else {
+          resultDiv.innerHTML = '<span style="color:green;">该公司暂无黑名单记录！</span>';
+        }
+      } catch (err) {
+        resultDiv.innerHTML = '<span style="color:red;">查询失败，请稍后重试。</span>';
+      }
+    });
+  </script>
+</body>
+</html>

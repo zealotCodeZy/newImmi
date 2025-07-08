@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>该地址详情</title>
+  <link href="/static/style.css" rel="stylesheet">
+</head>
+<body>
+  <header class="navbar">
+    <a href="/" class="logo">新移民防踩坑</a>
+    <small class="subtitle">这里有最全的攻略帮你快速开局。只放干货，杜绝踩坑。</small>
+    <nav class="nav-links">
+      <a href="/work.html">找工</a>
+      <a href="/workBlack.html">找工黑名单</a>
+      <a href="/rent.html">租房</a>
+      <a href="/rentBlack.html">租房黑名单</a>
+      <a href="/tel.html">电话卡</a>
+      <a href="/bank.html">银行卡</a>
+      <a href="/drive.html">驾照</a>
+      <a href="/id.html">身份</a>
+      <a href="/contact.html">联系我们</a>
+      <a href="/res.html">免责与隐私</a>
+      <a href="/login.html">登录</a>
+      <a href="/register.html">注册</a>
+    </nav>
+  </header>
+  <main class="container">
+    <div class="article-content" id="detail-content">
+      <h2>该地址上黑名单详情</h2>
+      <div id="detail-loading">加载中...</div>
+      <div id="detail-data" style="display:none;"></div>
+      <div id="detail-error" style="color:red;display:none;"></div>
+      <br><br><br>
+      <p class="center-block no-indent"><a href="/rentBlack.html" class="btn btn-primary">返回，重新搜索</a></p>
+    </div>
+  </main>
+  <footer class="site-footer">
+    Copyright ©2025 新移民第一站 All Rights Reserved
+  </footer>
+  <script>
+    // 获取URL参数address
+    function getQueryParam(name) {
+      const url = new URL(window.location.href);
+      return url.searchParams.get(name);
+    }
+    async function loadDetail() {
+      const address = getQueryParam('address');
+      const loading = document.getElementById('detail-loading');
+      const dataDiv = document.getElementById('detail-data');
+      const errorDiv = document.getElementById('detail-error');
+      if (!address) {
+        loading.style.display = 'none';
+        errorDiv.textContent = '未指定地址参数';
+        errorDiv.style.display = 'block';
+        return;
+      }
+      try {
+        const resp = await fetch(`http://localhost:5002/api/rentDetail/${encodeURIComponent(address)}`);
+        const data = await resp.json();
+        loading.style.display = 'none';
+        if (data.success) {
+          dataDiv.innerHTML = `<p><strong>地址:</strong> ${data.data.address}</p><p><strong>上黑名单原因:</strong> ${data.data.content}</p>`;
+          dataDiv.style.display = 'block';
+        } else {
+          errorDiv.textContent = '未找到该地址的黑名单详情';
+          errorDiv.style.display = 'block';
+        }
+      } catch (err) {
+        loading.style.display = 'none';
+        errorDiv.textContent = '加载失败，请稍后重试。';
+        errorDiv.style.display = 'block';
+      }
+    }
+    loadDetail();
+  </script>
+</body>
+</html>

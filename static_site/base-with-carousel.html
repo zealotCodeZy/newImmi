@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>新移民防踩坑</title>
+  <link href="/static/style.css" rel="stylesheet">
+</head>
+<body>
+  <header class="navbar">
+    <a href="/" class="logo">新移民防踩坑</a>
+    <small class="subtitle">这里有最全的攻略帮你快速开局。只放干货，杜绝踩坑。</small>
+    <nav class="nav-links">
+      <a href="/work.html">找工</a>
+      <a href="/workBlack.html">找工黑名单</a>
+      <a href="/rent.html">租房</a>
+      <a href="/rentBlack.html">租房黑名单</a>
+      <a href="/tel.html">电话卡</a>
+      <a href="/bank.html">银行卡</a>
+      <a href="/drive.html">驾照</a>
+      <a href="/id.html">身份</a>
+      <a href="/contact.html">联系我们</a>
+      <a href="/res.html">免责与隐私</a>
+      <a href="/login.html">登录</a>
+      <a href="/register.html">注册</a>
+    </nav>
+  </header>
+  <main class="container">
+    <!-- 轮播图 -->
+    <div class="carousel">
+      <a href="/bank.html"><img src="/static/images/Image Jun 13, 2025, 04_59_37 PM.png" alt="银行卡"></a>
+      <a href="/bank.html"><img src="/static/images/mage Jun 13, 2025, 05_00_45 PM.png" alt="银行卡2"></a>
+      <a href="/tel.html"><img src="/static/images/Image Jun 13, 2025, 05_08_47 PM.png" alt="电话卡"></a>
+      <div class="carousel-indicators">
+        <span data-slide="0" class="active"></span>
+        <span data-slide="1"></span>
+        <span data-slide="2"></span>
+      </div>
+    </div>
+    <div class="content">
+      <!-- 页面主体内容可在各页面单独实现 -->
+    </div>
+  </main>
+  <script>
+    (function(){
+      const slides = document.querySelectorAll('.carousel img');
+      const dots = document.querySelectorAll('.carousel-indicators span');
+      let idx = 0, len = slides.length;
+      function show(n){
+        slides.forEach((s,i)=> s.style.display = i===n ? 'block' : 'none');
+        dots.forEach((d,i)=> d.classList.toggle('active', i===n));
+      }
+      function next(){
+        idx = (idx+1)%len; show(idx);
+      }
+      dots.forEach(d=>{
+        d.onclick = ()=> { idx = +d.dataset.slide; show(idx); };
+      });
+      show(0);
+      setInterval(next, 5000);
+    })();
+  </script>
+  <footer class="site-footer">
+    Copyright ©2025 新移民第一站 All Rights Reserved
+  </footer>
+</body>
+</html>

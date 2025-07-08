@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>用户登录</title>
+  <link href="/static/style.css" rel="stylesheet">
+</head>
+<body>
+  <header class="navbar">
+    <a href="/" class="logo">新移民防踩坑</a>
+    <small class="subtitle">这里有最全的攻略帮你快速开局。只放干货，杜绝踩坑。</small>
+    <nav class="nav-links">
+      <a href="/work.html">找工</a>
+      <a href="/workBlack.html">找工黑名单</a>
+      <a href="/rent.html">租房</a>
+      <a href="/rentBlack.html">租房黑名单</a>
+      <a href="/tel.html">电话卡</a>
+      <a href="/bank.html">银行卡</a>
+      <a href="/drive.html">驾照</a>
+      <a href="/id.html">身份</a>
+      <a href="/contact.html">联系我们</a>
+      <a href="/res.html">免责与隐私</a>
+      <a href="/login.html">登录</a>
+      <a href="/register.html">注册</a>
+    </nav>
+  </header>
+  <main class="container">
+    <div class="content">
+      <div class="auth-container">
+        <div id="alert-box" class="alert" style="display:none;"></div>
+        <form id="login-form" class="auth-form">
+          <div class="form-group">
+            <label for="username">用户名:</label>
+            <input type="text" id="username" name="username" required class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="password">密码:</label>
+            <input type="password" id="password" name="password" required class="form-control">
+          </div>
+          <button type="submit" class="btn btn-primary">登录</button>
+        </form>
+        <div class="auth-links">
+          <p>还没有账号？ <a href="/register.html">立即注册</a></p>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer class="site-footer">
+    Copyright ©2025 新移民第一站 All Rights Reserved
+  </footer>
+  <script>
+    const form = document.getElementById('login-form');
+    const alertBox = document.getElementById('alert-box');
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      alertBox.style.display = 'none';
+      const data = {
+        username: form.username.value.trim(),
+        password: form.password.value
+      };
+      const resp = await fetch('http://localhost:5002/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(data)
+      });
+      const result = await resp.json();
+      alertBox.textContent = result.message;
+      alertBox.className = 'alert ' + (result.success ? 'alert-success' : 'alert-danger');
+      alertBox.style.display = 'block';
+      if(result.success) {
+        setTimeout(()=>{ window.location.href = '/index.html'; }, 1200);
+      }
+    });
+  </script>
+</body>
+</html> 
