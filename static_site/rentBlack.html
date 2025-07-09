@@ -10,7 +10,7 @@
   <header class="navbar">
     <a href="/" class="logo">新移民防踩坑</a>
     <small class="subtitle">这里有最全的攻略帮你快速开局。只放干货，杜绝踩坑。</small>
-    <nav class="nav-links">
+    <nav class="nav-links" id="nav-links">
       <a href="/work.html">找工</a>
       <a href="/workBlack.html">找工黑名单</a>
       <a href="/rent.html">租房</a>
@@ -21,26 +21,72 @@
       <a href="/id.html">身份</a>
       <a href="/contact.html">联系我们</a>
       <a href="/res.html">免责与隐私</a>
-      <a href="/login.html">登录</a>
-      <a href="/register.html">注册</a>
+      <span id="auth-links">
+        <a href="/login.html" id="login-link">登录</a>
+        <a href="/register.html" id="register-link">注册</a>
+      </span>
     </nav>
   </header>
   <main class="container">
     <div class="article-content">
       <h2 class="article-title">租房黑名单查询</h2>
-      <form id="zipcodeForm" class="auth-form">
-        <p><label for="zipcode">请在下面的框中输入目标房子所在地的邮编(zip code，5位数数字)，看看在这个地区的黑名单中有没有这套房。</label></p>
-        <p class="center-block no-indent"><input type="text" id="zipcode" name="zipcode" class="form-control" required pattern="^\d{5}$" title="请输入5位数字的美国邮编(zip code)"></p>
-        <br>
-        <p class="center-block no-indent"><button type="submit" class="btn btn-primary">查询</button></p>
-      </form>
-      <div id="result" style="margin-top:20px;"></div>
+      <div id="auth-check" style="display:none;">
+        <div class="auth-message">
+          <h3>需要登录</h3>
+          <p>此功能需要登录后才能使用。</p>
+          <a href="/login.html" class="btn btn-primary">立即登录</a>
+        </div>
+      </div>
+      <div id="membership-check" style="display:none;">
+        <div class="auth-message">
+          <h3>需要会员权限</h3>
+          <p>此功能需要会员权限才能使用。购买会员后可以访问所有黑名单功能。</p>
+          <a href="/membership.html" class="btn btn-primary">购买会员</a>
+        </div>
+      </div>
+      <div id="search-form" style="display:none;">
+        <form id="zipcodeForm" class="auth-form">
+          <p><label for="zipcode">请在下面的框中输入目标房子所在地的邮编(zip code，5位数数字)，看看在这个地区的黑名单中有没有这套房。</label></p>
+          <p class="center-block no-indent"><input type="text" id="zipcode" name="zipcode" class="form-control" required pattern="^\d{5}$" title="请输入5位数字的美国邮编(zip code)"></p>
+          <br>
+          <p class="center-block no-indent"><button type="submit" class="btn btn-primary">查询</button></p>
+        </form>
+        <div id="result" style="margin-top:20px;"></div>
+      </div>
     </div>
   </main>
   <footer class="site-footer">
     Copyright ©2025 新移民第一站 All Rights Reserved
   </footer>
+  <script src="/static/updateAuthLinks.js"></script>
   <script>
+    // 检查用户权限
+    async function checkAuth() {
+      try {
+        const resp = await fetch('http://localhost:5002/api/check-auth', {credentials: 'include'});
+        const data = await resp.json();
+        
+        if (!data.authenticated) {
+          document.getElementById('auth-check').style.display = 'block';
+          return;
+        }
+        
+        if (!data.membership_active) {
+          document.getElementById('membership-check').style.display = 'block';
+          return;
+        }
+        
+        // 用户已登录且有会员权限，显示搜索表单
+        document.getElementById('search-form').style.display = 'block';
+      } catch (err) {
+        console.error('权限检查失败:', err);
+        document.getElementById('auth-check').style.display = 'block';
+      }
+    }
+
+    // 页面加载时检查权限
+    checkAuth();
+
     document.getElementById('zipcodeForm').addEventListener('submit', async function(e) {
       e.preventDefault();
       const zipcode = document.getElementById('zipcode').value.trim();
@@ -52,7 +98,7 @@
       }
       resultDiv.textContent = '查询中...';
       try {
-        const resp = await fetch(`http://localhost:5002/api/rent?zipcode=${zipcode}`);
+        const resp = await fetch(`http://localhost:5002/api/rent?zipcode=${zipcode}`, {credentials: 'include'});
         const data = await resp.json();
         if (data.success && data.data.addresses.length > 0) {
           resultDiv.innerHTML = '<b>黑名单房源地址：</b><ul>' + data.data.addresses.map(addr => `<li>${addr}</li>`).join('') + '</ul>';

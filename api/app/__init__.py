@@ -10,7 +10,8 @@ login_manager = LoginManager()
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
-    CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
+    # 只允许前端静态站点跨域并带cookie
+    CORS(app, resources={r"/api/*": {"origins": "http://localhost:8000"}}, supports_credentials=True)
     
     # 初始化扩展
     db.init_app(app)

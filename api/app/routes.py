@@ -16,8 +16,19 @@ def membership_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
+# 检查用户认证状态
+@bp.route('/api/check-auth', methods=['GET'])
+def check_auth():
+    if not current_user.is_authenticated:
+        return jsonify(authenticated=False, membership_active=False)
+    return jsonify(
+        authenticated=True, 
+        membership_active=current_user.is_membership_active()
+    )
+
 # 只保留API路由
 @bp.route('/api/rent', methods=['GET'])
+@membership_required
 def api_rent():
     zipcode = request.args.get('zipcode')
     if not zipcode:
@@ -26,6 +37,7 @@ def api_rent():
     return jsonify(success=True, data={'addresses': addresses})
 
 @bp.route('/api/rentDetail/<address>', methods=['GET'])
+@membership_required
 def api_rent_detail(address):
     info = RentInfo.query.filter_by(address=address).first()
     if info:
@@ -34,6 +46,7 @@ def api_rent_detail(address):
         return jsonify(success=False, message='未找到该地址'), 404
 
 @bp.route('/api/work', methods=['GET'])
+@membership_required
 def api_work():
     zipcode = request.args.get('zipcode')
     works = WorkInfo.query.filter_by(zipcode=zipcode).all() if zipcode else WorkInfo.query.all()
@@ -41,6 +54,7 @@ def api_work():
     return jsonify(success=True, data={'works': data})
 
 @bp.route('/api/workDetail/<name>', methods=['GET'])
+@membership_required
 def api_work_detail(name):
     info = WorkInfo.query.filter_by(name=name).first()
     if info:

@@ -10,7 +10,7 @@
   <header class="navbar">
     <a href="/" class="logo">新移民防踩坑</a>
     <small class="subtitle">这里有最全的攻略帮你快速开局。只放干货，杜绝踩坑。</small>
-    <nav class="nav-links">
+    <nav class="nav-links" id="nav-links">
       <a href="/work.html">找工</a>
       <a href="/workBlack.html">找工黑名单</a>
       <a href="/rent.html">租房</a>
@@ -21,8 +21,10 @@
       <a href="/id.html">身份</a>
       <a href="/contact.html">联系我们</a>
       <a href="/res.html">免责与隐私</a>
-      <a href="/login.html">登录</a>
-      <a href="/register.html">注册</a>
+      <span id="auth-links">
+        <a href="/login.html" id="login-link">登录</a>
+        <a href="/register.html" id="register-link">注册</a>
+      </span>
     </nav>
   </header>
   <main class="container">
@@ -39,5 +41,15 @@
   <footer class="site-footer">
     Copyright ©2025 新移民第一站 All Rights Reserved
   </footer>
+  <script src="/static/updateAuthLinks.js"></script>
+  <script>
+    // 强制更新认证链接
+    console.log('id.html 页面加载完成，强制更新认证链接');
+    if(typeof updateAuthLinks === 'function') {
+      updateAuthLinks();
+    } else {
+      console.error('updateAuthLinks 函数未找到');
+    }
+  </script>
 </body>
 </html> 

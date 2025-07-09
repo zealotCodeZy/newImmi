@@ -49,7 +49,7 @@ body {
 .navbar .nav-links {
     grid-area: nav;
     display: flex;
-    gap: 20px;
+    gap: 8px;
     justify-self: end;
 }
 .navbar .nav-links a {
@@ -296,13 +296,42 @@ p.no-indent {
     margin-top: 20px;
 }
 
-.auth-links a {
+/* 强制统一所有导航栏链接样式 */
+.navbar a,
+.navbar .nav-links a,
+.navbar #nav-links a,
+.navbar .nav-links #auth-links a,
+.navbar #auth-links a,
+#nav-links #auth-links a {
+    color: var(--color-primary-text) !important;
+    text-decoration: none !important;
+    font-weight: 500 !important;
+    padding: 5px 8px !important;
+    transition: color 0.3s, background 0.3s !important;
+    border-radius: 4px !important;
+    display: inline-block !important;
+    margin: 0 !important;
+}
+
+.navbar a:hover,
+.navbar .nav-links a:hover,
+.navbar #nav-links a:hover,
+.navbar .nav-links #auth-links a:hover,
+.navbar #auth-links a:hover,
+#nav-links #auth-links a:hover {
+    color: var(--color-primary-bg) !important;
+    background-color: var(--color-accent) !important;
+    text-decoration: none !important;
+}
+
+/* 认证页面中的认证链接样式 */
+.auth-container .auth-links a {
     color: var(--color-accent);
     text-decoration: none;
     font-weight: 600;
 }
 
-.auth-links a:hover {
+.auth-container .auth-links a:hover {
     text-decoration: underline;
 }
 
@@ -395,6 +424,47 @@ p.no-indent {
     .membership-info {
         padding: 15px;
     }
+}
+
+/* 权限提示信息样式 */
+.auth-message {
+  background-color: #f8f9fa;
+  border: 2px solid var(--color-accent);
+  border-radius: 8px;
+  padding: 30px;
+  text-align: center;
+  margin: 20px 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.auth-message h3 {
+  color: var(--color-accent);
+  font-size: 1.5em;
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+.auth-message p {
+  color: #666;
+  font-size: 1.1em;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  text-indent: 0;
+}
+
+.auth-message .btn {
+  display: inline-block;
+  padding: 12px 24px;
+  font-size: 1.1em;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.auth-message .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(212,175,55,0.3);
 }
 
 

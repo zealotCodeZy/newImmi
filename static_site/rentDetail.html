@@ -10,7 +10,7 @@
   <header class="navbar">
     <a href="/" class="logo">新移民防踩坑</a>
     <small class="subtitle">这里有最全的攻略帮你快速开局。只放干货，杜绝踩坑。</small>
-    <nav class="nav-links">
+    <nav class="nav-links" id="nav-links">
       <a href="/work.html">找工</a>
       <a href="/workBlack.html">找工黑名单</a>
       <a href="/rent.html">租房</a>
@@ -21,24 +21,80 @@
       <a href="/id.html">身份</a>
       <a href="/contact.html">联系我们</a>
       <a href="/res.html">免责与隐私</a>
-      <a href="/login.html">登录</a>
-      <a href="/register.html">注册</a>
+      <span id="auth-links">
+        <a href="/login.html" id="login-link">登录</a>
+        <a href="/register.html" id="register-link">注册</a>
+      </span>
     </nav>
   </header>
   <main class="container">
     <div class="article-content" id="detail-content">
       <h2>该地址上黑名单详情</h2>
-      <div id="detail-loading">加载中...</div>
-      <div id="detail-data" style="display:none;"></div>
-      <div id="detail-error" style="color:red;display:none;"></div>
-      <br><br><br>
-      <p class="center-block no-indent"><a href="/rentBlack.html" class="btn btn-primary">返回，重新搜索</a></p>
+      <div id="auth-check" style="display:none;">
+        <div class="auth-message">
+          <h3>需要登录</h3>
+          <p>此功能需要登录后才能使用。</p>
+          <a href="/login.html" class="btn btn-primary">立即登录</a>
+        </div>
+      </div>
+      <div id="membership-check" style="display:none;">
+        <div class="auth-message">
+          <h3>需要会员权限</h3>
+          <p>此功能需要会员权限才能使用。购买会员后可以访问所有黑名单功能。</p>
+          <a href="/membership.html" class="btn btn-primary">购买会员</a>
+        </div>
+      </div>
+      <div id="detail-content-area" style="display:none;">
+        <div id="detail-loading">加载中...</div>
+        <div id="detail-data" style="display:none;"></div>
+        <div id="detail-error" style="color:red;display:none;"></div>
+        <br><br><br>
+        <p class="center-block no-indent"><a href="/rentBlack.html" class="btn btn-primary">返回，重新搜索</a></p>
+      </div>
     </div>
   </main>
   <footer class="site-footer">
     Copyright ©2025 新移民第一站 All Rights Reserved
   </footer>
+  <script src="/static/updateAuthLinks.js"></script>
   <script>
+    // 强制更新认证链接
+    console.log('rentDetail.html 页面加载完成，强制更新认证链接');
+    if(typeof updateAuthLinks === 'function') {
+      updateAuthLinks();
+    } else {
+      console.error('updateAuthLinks 函数未找到');
+    }
+  </script>
+  <script>
+    // 检查用户权限
+    async function checkAuth() {
+      try {
+        const resp = await fetch('http://localhost:5002/api/check-auth');
+        const data = await resp.json();
+        
+        if (!data.authenticated) {
+          document.getElementById('auth-check').style.display = 'block';
+          return;
+        }
+        
+        if (!data.membership_active) {
+          document.getElementById('membership-check').style.display = 'block';
+          return;
+        }
+        
+        // 用户已登录且有会员权限，显示详情内容
+        document.getElementById('detail-content-area').style.display = 'block';
+        loadDetail();
+      } catch (err) {
+        console.error('权限检查失败:', err);
+        document.getElementById('auth-check').style.display = 'block';
+      }
+    }
+
+    // 页面加载时检查权限
+    checkAuth();
+
     // 获取URL参数address
     function getQueryParam(name) {
       const url = new URL(window.location.href);
@@ -72,7 +128,6 @@
         errorDiv.style.display = 'block';
       }
     }
-    loadDetail();
   </script>
 </body>
 </html>
