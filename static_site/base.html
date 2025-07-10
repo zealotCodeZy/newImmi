@@ -11,6 +11,9 @@
   <header class="navbar">
     <a href="/" class="logo">新移民防踩坑</a>
     <small class="subtitle">这里有最全的攻略帮你快速开局。只放干货，杜绝踩坑。</small>
+    <button class="menu-toggle" aria-label="Toggle menu" id="menu-toggle">
+      ☰
+    </button>
     <nav class="nav-links" id="nav-links">
       <a href="/work.html">找工</a>
       <a href="/workBlack.html">找工黑名单</a>
@@ -48,6 +51,34 @@
     } else {
       console.error('updateAuthLinks 函数未找到');
     }
+  </script>
+  <script>
+    // 响应式导航菜单控制
+    document.addEventListener('DOMContentLoaded', function() {
+      const menuToggle = document.getElementById('menu-toggle');
+      const navLinks = document.getElementById('nav-links');
+      
+      if (menuToggle && navLinks) {
+        menuToggle.addEventListener('click', function() {
+          navLinks.classList.toggle('show');
+        });
+        
+        // 点击导航链接后自动收起菜单
+        const navItems = navLinks.querySelectorAll('a');
+        navItems.forEach(function(item) {
+          item.addEventListener('click', function() {
+            navLinks.classList.remove('show');
+          });
+        });
+        
+        // 点击页面其他地方时收起菜单
+        document.addEventListener('click', function(event) {
+          if (!menuToggle.contains(event.target) && !navLinks.contains(event.target)) {
+            navLinks.classList.remove('show');
+          }
+        });
+      }
+    });
   </script>
 </body>
 </html>
