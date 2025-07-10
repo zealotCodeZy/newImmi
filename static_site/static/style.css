@@ -91,6 +91,7 @@ body {
 .navbar .menu-toggle {
     grid-area: toggle;
     justify-self: end;
+    display: none; /* 确保在桌面端隐藏 */
 }
 
 /* 头部区域 */
@@ -428,8 +429,9 @@ p.no-indent {
 /* 响应式设计 */
 @media (max-width: 768px) {
     /* 显示汉堡菜单按钮 */
-    .menu-toggle {
-        display: block;
+    .menu-toggle,
+    .navbar .menu-toggle {
+        display: block !important;
     }
     
     /* 调整导航栏布局 */
