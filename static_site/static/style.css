@@ -152,53 +152,7 @@ body {
 .carousel-indicators span { width: 12px; height: 12px; background: rgba(255,255,255,0.5); border-radius: 50%; cursor: pointer; transition: background 0.3s; }
 .carousel-indicators .active { background: var(--color-accent); }
 
-/* 响应式 */
-@media (max-width: 768px) {
-    /* 显示汉堡菜单按钮 */
-    .menu-toggle {
-        display: block;
-    }
-    
-    /* 调整导航栏布局 */
-    .navbar {
-        grid-template-columns: auto 1fr auto;
-        grid-template-areas:
-            "logo toggle toggle"
-            "subtitle nav nav";
-    }
-    
-    /* 导航链接样式 */
-    .navbar .nav-links {
-        display: none;
-        flex-direction: column;
-        background-color: var(--color-primary-bg);
-        width: 100%;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        border-top: 1px solid rgba(255,255,255,0.1);
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    }
-    
-    .navbar .nav-links.show {
-        display: flex;
-    }
-    
-    .navbar .nav-links a {
-        padding: 12px 20px;
-        border-bottom: 1px solid rgba(255,255,255,0.1);
-        width: 100%;
-        text-align: left;
-    }
-    
-    .navbar .nav-links a:last-child {
-        border-bottom: none;
-    }
-    
-    .carousel { max-width: 95vw; margin: 10px auto; }
-    .header { flex-direction: column; text-align: center; }
-    .header-left, .header-right { padding: 10px 0; }
-}
+
 /* 内容区高端大气样式 */
 /* 内容区高端卡片式样式 */
 .article-content {
@@ -473,6 +427,51 @@ p.no-indent {
 
 /* 响应式设计 */
 @media (max-width: 768px) {
+    /* 显示汉堡菜单按钮 */
+    .menu-toggle {
+        display: block;
+    }
+    
+    /* 调整导航栏布局 */
+    .navbar {
+        grid-template-columns: auto 1fr auto;
+        grid-template-areas:
+            "logo toggle toggle"
+            "subtitle nav nav";
+    }
+    
+    /* 导航链接样式 */
+    .navbar .nav-links {
+        display: none;
+        flex-direction: column;
+        background-color: var(--color-primary-bg);
+        width: 100%;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        border-top: 1px solid rgba(255,255,255,0.1);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    
+    .navbar .nav-links.show {
+        display: flex;
+    }
+    
+    .navbar .nav-links a {
+        padding: 12px 20px;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+        width: 100%;
+        text-align: left;
+    }
+    
+    .navbar .nav-links a:last-child {
+        border-bottom: none;
+    }
+    
+    .carousel { max-width: 95vw; margin: 10px auto; }
+    .header { flex-direction: column; text-align: center; }
+    .header-left, .header-right { padding: 10px 0; }
+    
     .auth-container {
         margin: 20px;
         padding: 20px;
