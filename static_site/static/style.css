@@ -90,7 +90,7 @@ body {
 
 .navbar .menu-toggle {
     grid-area: toggle;
-    justify-self: end;
+    justify-self: start; /* 在移动端靠左对齐 */
     display: none; /* 确保在桌面端隐藏 */
 }
 
@@ -434,18 +434,28 @@ p.no-indent {
         display: block !important;
     }
     
-    /* 调整导航栏布局 */
+    /* 调整导航栏布局 - 汉堡按钮在左边 */
     .navbar {
-        grid-template-columns: auto 1fr auto;
+        grid-template-columns: auto 1fr;
         grid-template-areas:
-            "logo toggle toggle"
-            "subtitle nav nav";
+            "toggle logo"
+            "nav nav";
     }
     
-    /* 导航链接样式 */
+    .navbar .logo {
+        justify-self: center;
+        text-align: center;
+    }
+    
+    .navbar .subtitle {
+        display: none; /* 在移动端隐藏副标题以节省空间 */
+    }
+    
+    /* 导航链接样式 - 横向展示 */
     .navbar .nav-links {
         display: none;
-        flex-direction: column;
+        flex-direction: row;
+        flex-wrap: wrap;
         background-color: var(--color-primary-bg);
         width: 100%;
         position: absolute;
@@ -453,6 +463,9 @@ p.no-indent {
         left: 0;
         border-top: 1px solid rgba(255,255,255,0.1);
         box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        padding: 10px;
+        gap: 8px;
+        justify-content: center;
     }
     
     .navbar .nav-links.show {
@@ -460,14 +473,19 @@ p.no-indent {
     }
     
     .navbar .nav-links a {
-        padding: 12px 20px;
-        border-bottom: 1px solid rgba(255,255,255,0.1);
-        width: 100%;
-        text-align: left;
+        padding: 8px 12px;
+        border: 1px solid rgba(255,255,255,0.2);
+        border-radius: 4px;
+        text-align: center;
+        font-size: 0.9em;
+        white-space: nowrap;
+        min-width: fit-content;
     }
     
-    .navbar .nav-links a:last-child {
-        border-bottom: none;
+    .navbar .nav-links a:hover {
+        background-color: var(--color-accent);
+        color: var(--color-primary-bg);
+        border-color: var(--color-accent);
     }
     
     .carousel { max-width: 95vw; margin: 10px auto; }
