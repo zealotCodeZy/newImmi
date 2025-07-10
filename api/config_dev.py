@@ -7,7 +7,7 @@ class DevConfig:
     if not SECRET_KEY:
         raise ValueError("SECRET_KEY environment variable is required")
     
-    SQLALCHEMY_DATABASE_URI = "postgresql://newimmi_user:AlbertFreeman!@127.0.0.1:5432/newimmi_db"
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'sqlite:///app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     
     MEMBERSHIP_PRICE_YEAR = 9.99  # 年付会员价格
