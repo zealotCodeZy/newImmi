@@ -1,9 +1,9 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import { VercelRequest, VercelResponse } from '@vercel/node';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 // CORS 处理
-export function handleCors(req: NextApiRequest, res: NextApiResponse) {
+export function handleCors(req: VercelRequest, res: VercelResponse) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
@@ -43,8 +43,8 @@ export function verifyToken(token: string): any {
 }
 
 // 从请求头获取用户信息
-export function getUserFromRequest(req: NextApiRequest): any {
-  const authHeader = req.headers.authorization;
+export function getUserFromRequest(req: VercelRequest): any {
+  const authHeader = req.headers.authorization as string;
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return null;
   }
@@ -54,7 +54,7 @@ export function getUserFromRequest(req: NextApiRequest): any {
 }
 
 // 错误响应
-export function errorResponse(res: NextApiResponse, message: string, status: number = 400) {
+export function errorResponse(res: VercelResponse, message: string, status: number = 400) {
   return res.status(status).json({
     success: false,
     message
@@ -62,7 +62,7 @@ export function errorResponse(res: NextApiResponse, message: string, status: num
 }
 
 // 成功响应
-export function successResponse(res: NextApiResponse, data: any, message: string = 'Success') {
+export function successResponse(res: VercelResponse, data: any, message: string = 'Success') {
   return res.status(200).json({
     success: true,
     message,

@@ -1,15 +1,15 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import { VercelRequest, VercelResponse } from '@vercel/node';
 import Stripe from 'stripe';
 import { supabase } from '../../lib/supabase';
 import { errorResponse, successResponse } from '../../lib/utils';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2023-10-16',
+  apiVersion: '2025-06-30.basil',
 });
 
 const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') {
     return errorResponse(res, 'Method not allowed', 405);
   }
@@ -79,9 +79,9 @@ async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session) 
 }
 
 async function handleInvoicePaymentSucceeded(invoice: Stripe.Invoice) {
-  if (invoice.subscription && invoice.customer) {
+  if ((invoice as any).subscription && invoice.customer) {
     // 处理订阅续费
-    const customer = await stripe.customers.retrieve(invoice.customer as string);
+    const customer = await stripe.customers.retrieve(invoice.customer as string) as Stripe.Customer;
     if (customer.metadata?.user_id) {
       const userId = customer.metadata.user_id;
       const membershipExpires = new Date();
@@ -100,7 +100,7 @@ async function handleInvoicePaymentSucceeded(invoice: Stripe.Invoice) {
 
 async function handleInvoicePaymentFailed(invoice: Stripe.Invoice) {
   if (invoice.customer) {
-    const customer = await stripe.customers.retrieve(invoice.customer as string);
+    const customer = await stripe.customers.retrieve(invoice.customer as string) as Stripe.Customer;
     if (customer.metadata?.user_id) {
       const userId = customer.metadata.user_id;
 

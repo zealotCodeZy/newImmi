@@ -1,8 +1,8 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import { VercelRequest, VercelResponse } from '@vercel/node';
 import { supabase } from '../../lib/supabase';
 import { handleCors, getUserFromRequest, errorResponse, successResponse } from '../../lib/utils';
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (handleCors(req, res)) return;
 
   switch (req.method) {
@@ -16,7 +16,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 }
 
 // 获取工作信息
-async function getWorkInfo(req: NextApiRequest, res: NextApiResponse) {
+async function getWorkInfo(req: VercelRequest, res: VercelResponse) {
   try {
     const { zipcode } = req.query;
 
@@ -46,7 +46,7 @@ async function getWorkInfo(req: NextApiRequest, res: NextApiResponse) {
 }
 
 // 创建工作信息
-async function createWorkInfo(req: NextApiRequest, res: NextApiResponse) {
+async function createWorkInfo(req: VercelRequest, res: VercelResponse) {
   try {
     // 验证用户权限
     const user = getUserFromRequest(req);
