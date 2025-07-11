@@ -65,7 +65,7 @@ function getSelectedPlan() {
 }
 async function initialize() {
     plan = getSelectedPlan();
-    const {clientSecret, publishableKey} = await fetch("http://localhost:5002/api/create-payment-intent", {
+    const {clientSecret, publishableKey} = await fetch("https://api-vercel-1i4wawkir-zealotcodezys-projects.vercel.app/api/create-payment-intent", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({plan})

@@ -74,7 +74,7 @@
     // 检查用户权限
     async function checkAuth() {
       try {
-        const resp = await fetch('http://localhost:5002/api/check-auth');
+        const resp = await fetch('https://api-vercel-1i4wawkir-zealotcodezys-projects.vercel.app/api/check-auth');
         const data = await resp.json();
         
         if (!data.authenticated) {
@@ -116,7 +116,7 @@
         return;
       }
       try {
-        const resp = await fetch(`http://localhost:5002/api/workDetail/${encodeURIComponent(companyName)}`);
+        const resp = await fetch(`https://api-vercel-1i4wawkir-zealotcodezys-projects.vercel.app/api/workDetail/${encodeURIComponent(companyName)}`);
         const data = await resp.json();
         loading.style.display = 'none';
         if (data.success) {

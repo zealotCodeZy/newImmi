@@ -6,7 +6,7 @@ async function updateAuthLinks() {
     
     // 添加时间戳防止缓存
     const timestamp = new Date().getTime();
-    const resp = await fetch(`http://localhost:5002/api/check-auth?t=${timestamp}`, {
+    const resp = await fetch(`https://api-vercel-1i4wawkir-zealotcodezys-projects.vercel.app/api/check-auth?t=${timestamp}`, {
       method: 'GET',
       credentials: 'include',
       headers: {
@@ -43,7 +43,7 @@ async function updateAuthLinks() {
         logoutLink.onclick = async function(e) {
           e.preventDefault();
           console.log('点击登出链接');
-          await fetch('http://localhost:5002/api/logout', {method: 'POST', credentials: 'include'});
+          await fetch('https://api-vercel-1i4wawkir-zealotcodezys-projects.vercel.app/api/logout', {method: 'POST', credentials: 'include'});
           location.reload();
         };
       }
