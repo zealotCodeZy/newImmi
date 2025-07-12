@@ -67,7 +67,7 @@
     // 检查用户权限
     async function checkAuth() {
       try {
-        const resp = await fetch('https://api-vercel-1i4wawkir-zealotcodezys-projects.vercel.app/api/check-auth', {credentials: 'include'});
+        const resp = await fetch('https://api-vercel-ebt03bi5l-zealotcodezys-projects.vercel.app/api/check-auth', {credentials: 'include'});
         const data = await resp.json();
         
         if (!data.authenticated) {
@@ -102,7 +102,7 @@
       }
       resultDiv.textContent = '查询中...';
       try {
-        const resp = await fetch(`https://api-vercel-1i4wawkir-zealotcodezys-projects.vercel.app/api/rent?zipcode=${zipcode}`, {credentials: 'include'});
+        const resp = await fetch(`https://api-vercel-ebt03bi5l-zealotcodezys-projects.vercel.app/api/rent?zipcode=${zipcode}`, {credentials: 'include'});
         const data = await resp.json();
         if (data.success && data.data.addresses.length > 0) {
           resultDiv.innerHTML = '<b>黑名单房源地址：</b><ul>' + data.data.addresses.map(addr => `<li>${addr}</li>`).join('') + '</ul>';

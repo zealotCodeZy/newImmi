@@ -66,7 +66,7 @@
     // 检查用户权限
     async function checkAuth() {
       try {
-        const resp = await fetch('https://api-vercel-1i4wawkir-zealotcodezys-projects.vercel.app/api/check-auth', {credentials: 'include'});
+        const resp = await fetch('https://api-vercel-ebt03bi5l-zealotcodezys-projects.vercel.app/api/check-auth', {credentials: 'include'});
         const data = await resp.json();
         
         if (!data.authenticated) {
@@ -101,7 +101,7 @@
       }
       resultDiv.textContent = '查询中...';
       try {
-        const resp = await fetch(`https://api-vercel-1i4wawkir-zealotcodezys-projects.vercel.app/api/workDetail/${encodeURIComponent(name)}`, {credentials: 'include'});
+        const resp = await fetch(`https://api-vercel-ebt03bi5l-zealotcodezys-projects.vercel.app/api/workDetail/${encodeURIComponent(name)}`, {credentials: 'include'});
         const data = await resp.json();
         if (data.success) {
           resultDiv.innerHTML = `<b>公司名称：</b>${data.data.name}<br><b>地址：</b>${data.data.address}<br><b>详情：</b>${data.data.content}`;

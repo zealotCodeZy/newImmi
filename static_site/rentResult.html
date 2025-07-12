@@ -61,7 +61,7 @@
     async function fetchResult() {
       const zipcode = getQueryParam('zipcode');
       document.getElementById('result-title').textContent = `在${zipcode}地址范围，黑名单房源如下：`;
-      const res = await fetch('https://api-vercel-1i4wawkir-zealotcodezys-projects.vercel.app/api/rent-blacklist?zipcode=${encodeURIComponent(zipcode)}`);
+      const res = await fetch('https://api-vercel-ebt03bi5l-zealotcodezys-projects.vercel.app/api/rent-blacklist?zipcode=${encodeURIComponent(zipcode)}`);
       const data = await res.json();
       const container = document.getElementById('result-content');
       if (data.addresses && data.addresses.length > 0) {
