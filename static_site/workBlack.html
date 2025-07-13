@@ -66,15 +66,23 @@
     // 检查用户权限
     async function checkAuth() {
       try {
-        const resp = await fetch('https://api-vercel-ebt03bi5l-zealotcodezys-projects.vercel.app/api/check-auth', {credentials: 'include'});
+        const token = localStorage.getItem('authToken');
+        const headers = { 'Content-Type': 'application/json' };
+        if (token) {
+          headers['Authorization'] = `Bearer ${token}`;
+        }
+        const resp = await fetch('https://api-vercel-pa9yg7tny-zealotcodezys-projects.vercel.app/api/auth/check-auth', {
+          credentials: 'include',
+          headers: headers
+        });
         const data = await resp.json();
         
-        if (!data.authenticated) {
+        if (!data.data || !data.data.authenticated) {
           document.getElementById('auth-check').style.display = 'block';
           return;
         }
         
-        if (!data.membership_active) {
+        if (!data.data.user || !data.data.user.is_member) {
           document.getElementById('membership-check').style.display = 'block';
           return;
         }
@@ -101,7 +109,7 @@
       }
       resultDiv.textContent = '查询中...';
       try {
-        const resp = await fetch(`https://api-vercel-ebt03bi5l-zealotcodezys-projects.vercel.app/api/workDetail/${encodeURIComponent(name)}`, {credentials: 'include'});
+        const resp = await fetch(`https://api-vercel-pa9yg7tny-zealotcodezys-projects.vercel.app/api/work/detail/${encodeURIComponent(name)}`, {credentials: 'include'});
         const data = await resp.json();
         if (data.success) {
           resultDiv.innerHTML = `<b>公司名称：</b>${data.data.name}<br><b>地址：</b>${data.data.address}<br><b>详情：</b>${data.data.content}`;

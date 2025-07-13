@@ -75,23 +75,35 @@
         username: form.username.value.trim(),
         password: form.password.value
       };
-      const resp = await fetch('https://api-vercel-ebt03bi5l-zealotcodezys-projects.vercel.app/api/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify(data)
-      });
-      const result = await resp.json();
-      alertBox.textContent = result.message;
-      alertBox.className = 'alert ' + (result.success ? 'alert-success' : 'alert-danger');
-      alertBox.style.display = 'block';
-      if(result.success) {
-        // 登录成功后立即更新当前页面的认证链接
-        if(typeof updateAuthLinks === 'function') {
-          await updateAuthLinks();
+      try {
+        const resp = await fetch('https://api-vercel-pa9yg7tny-zealotcodezys-projects.vercel.app/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify(data)
+        });
+        const result = await resp.json();
+        alertBox.textContent = result.message;
+        alertBox.className = 'alert ' + (result.success ? 'alert-success' : 'alert-danger');
+        alertBox.style.display = 'block';
+        if(result.success) {
+          // 保存JWT token到localStorage
+          if(result.data && result.data.token) {
+            localStorage.setItem('authToken', result.data.token);
+            console.log('JWT token已保存');
+          }
+          // 登录成功后立即更新当前页面的认证链接
+          if(typeof updateAuthLinks === 'function') {
+            await updateAuthLinks();
+          }
+          // 然后跳转到首页
+          setTimeout(()=>{ window.location.href = '/index.html'; }, 1000);
         }
-        // 然后跳转到首页
-        setTimeout(()=>{ window.location.href = '/index.html'; }, 1000);
+      } catch (err) {
+        console.error('登录异常:', err);
+        alertBox.textContent = '登录请求失败，请稍后重试。';
+        alertBox.className = 'alert alert-danger';
+        alertBox.style.display = 'block';
       }
     });
   </script>

@@ -61,18 +61,33 @@
     async function fetchResult() {
       const zipcode = getQueryParam('zipcode');
       document.getElementById('result-title').textContent = `在${zipcode}地址范围，黑名单房源如下：`;
-      const res = await fetch('https://api-vercel-ebt03bi5l-zealotcodezys-projects.vercel.app/api/rent-blacklist?zipcode=${encodeURIComponent(zipcode)}`);
-      const data = await res.json();
+      const res = await fetch(`https://api-vercel-6ggo3e1uo-zealotcodezys-projects.vercel.app/api/rent?zipcode=${encodeURIComponent(zipcode)}`);
+      const response = await res.json();
       const container = document.getElementById('result-content');
-      if (data.addresses && data.addresses.length > 0) {
-        const ol = document.createElement('ol');
-        ol.className = 'result-list';
-        data.addresses.forEach(addr => {
-          const li = document.createElement('li');
-          li.innerHTML = `${addr} <a href="/rentDetail.html?address=${encodeURIComponent(addr)}">点击查看详情</a>`;
-          ol.appendChild(li);
-        });
-        container.appendChild(ol);
+      if (response.success && response.data && response.data.length > 0) {
+        const addresses = response.data.map(item => item.address).filter(addr => addr);
+        if (addresses.length > 0) {
+          const ol = document.createElement('ol');
+          ol.className = 'result-list';
+          addresses.forEach(addr => {
+            const li = document.createElement('li');
+            li.innerHTML = `${addr} <a href="/rentDetail.html?address=${encodeURIComponent(addr)}">点击查看详情</a>`;
+            ol.appendChild(li);
+          });
+          container.appendChild(ol);
+        } else {
+          container.innerHTML = `<div class="no-results">
+            <h3>🎉 好消息！</h3>
+            <p>在邮编 <strong>${zipcode}</strong> 范围内，目前没有发现黑名单房源。</p>
+            <p>但仍建议您：</p>
+            <ul>
+              <li>仔细查看租房合同条款</li>
+              <li>实地考察房屋状况</li>
+              <li>了解房东背景信息</li>
+              <li>保留所有沟通记录</li>
+            </ul>
+          </div>`;
+        }
       } else {
         container.innerHTML = `<div class="no-results">
           <h3>🎉 好消息！</h3>

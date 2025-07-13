@@ -70,7 +70,14 @@
     // 检查用户权限
     async function checkAuth() {
       try {
-        const resp = await fetch('https://api-vercel-ebt03bi5l-zealotcodezys-projects.vercel.app/api/check-auth');
+        const token = localStorage.getItem('authToken');
+        const headers = { 'Content-Type': 'application/json' };
+        if (token) {
+          headers['Authorization'] = `Bearer ${token}`;
+        }
+        const resp = await fetch('https://api-vercel-6ggo3e1uo-zealotcodezys-projects.vercel.app/api/auth/check-auth', {
+          headers: headers
+        });
         const data = await resp.json();
         
         if (!data.authenticated) {
@@ -112,7 +119,7 @@
         return;
       }
       try {
-        const resp = await fetch(`https://api-vercel-ebt03bi5l-zealotcodezys-projects.vercel.app/api/rentDetail/${encodeURIComponent(address)}`);
+        const resp = await fetch(`https://api-vercel-6ggo3e1uo-zealotcodezys-projects.vercel.app/api/rent/detail/${encodeURIComponent(address)}`);
         const data = await resp.json();
         loading.style.display = 'none';
         if (data.success) {

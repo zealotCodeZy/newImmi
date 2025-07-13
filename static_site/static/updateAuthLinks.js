@@ -4,17 +4,51 @@ async function updateAuthLinks() {
     console.log('开始更新认证链接...');
     console.log('当前页面URL:', window.location.href);
     
+    // 先隐藏认证链接，避免闪烁
+    const authLinks = document.getElementById('auth-links');
+    if(authLinks) {
+      authLinks.style.opacity = '0.5';
+      authLinks.style.transition = 'opacity 0.3s ease';
+    }
+    
+    // 获取JWT token
+    const token = localStorage.getItem('authToken');
+    
+    // 如果有token，立即显示登出链接（避免闪烁）
+    if (token && authLinks) {
+      authLinks.innerHTML = '<a href="#" id="logout-link">登出</a>';
+      const logoutLink = document.getElementById('logout-link');
+      if(logoutLink) {
+        logoutLink.onclick = async function(e) {
+          e.preventDefault();
+          console.log('点击登出链接');
+          // 清除localStorage中的token
+          localStorage.removeItem('authToken');
+          await fetch('https://api-vercel-pa9yg7tny-zealotcodezys-projects.vercel.app/api/auth/logout', {method: 'POST', credentials: 'include'});
+          location.reload();
+        };
+      }
+      // 立即恢复显示
+      authLinks.style.opacity = '1';
+    }
+    
     // 添加时间戳防止缓存
     const timestamp = new Date().getTime();
-    const resp = await fetch(`https://api-vercel-1i4wawkir-zealotcodezys-projects.vercel.app/api/check-auth?t=${timestamp}`, {
+    
+    const headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    };
+    
+    // 如果有token，添加到Authorization头
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+    
+    const resp = await fetch(`https://api-vercel-pa9yg7tny-zealotcodezys-projects.vercel.app/api/auth/check-auth?t=${timestamp}`, {
       method: 'GET',
       credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Cache-Control': 'no-cache',
-        'Pragma': 'no-cache'
-      }
+      headers: headers
     });
     
     console.log('API响应状态:', resp.status);
@@ -27,7 +61,6 @@ async function updateAuthLinks() {
     const data = await resp.json();
     console.log('API响应数据:', data);
     
-    const authLinks = document.getElementById('auth-links');
     if(!authLinks) {
       console.error('找不到auth-links元素');
       return;
@@ -35,7 +68,7 @@ async function updateAuthLinks() {
     
     console.log('找到auth-links元素:', authLinks);
     
-    if(data.authenticated) {
+    if(data.data && data.data.authenticated) {
       console.log('用户已登录，显示登出链接');
       authLinks.innerHTML = '<a href="#" id="logout-link">登出</a>';
       const logoutLink = document.getElementById('logout-link');
@@ -43,7 +76,9 @@ async function updateAuthLinks() {
         logoutLink.onclick = async function(e) {
           e.preventDefault();
           console.log('点击登出链接');
-          await fetch('https://api-vercel-1i4wawkir-zealotcodezys-projects.vercel.app/api/logout', {method: 'POST', credentials: 'include'});
+          // 清除localStorage中的token
+          localStorage.removeItem('authToken');
+          await fetch('https://api-vercel-pa9yg7tny-zealotcodezys-projects.vercel.app/api/auth/logout', {method: 'POST', credentials: 'include'});
           location.reload();
         };
       }
@@ -52,15 +87,18 @@ async function updateAuthLinks() {
       authLinks.innerHTML = '<a href="/login.html" id="login-link">登录</a> <a href="/register.html" id="register-link">注册</a>';
     }
     
+    // 恢复认证链接的显示
+    authLinks.style.opacity = '1';
+    
     console.log('认证链接更新完成');
   } catch (error) {
     console.error('更新认证链接失败:', error);
     console.error('错误详情:', error.message);
     // 如果API调用失败，默认显示登录/注册链接
-    const authLinks = document.getElementById('auth-links');
     if(authLinks) {
       authLinks.innerHTML = '<a href="/login.html" id="login-link">登录</a> <a href="/register.html" id="register-link">注册</a>';
-  }
+      authLinks.style.opacity = '1';
+    }
   }
 }
 // 页面加载自动调用

@@ -59,13 +59,15 @@
     async function fetchResult() {
       const name = getQueryParam('name');
       document.getElementById('result-title').textContent = `公司名字包含"${name}"的黑名单：`;
-      const res = await fetch('https://api-vercel-ebt03bi5l-zealotcodezys-projects.vercel.app/api/work-blacklist?name=${encodeURIComponent(name)}`);
-      const data = await res.json();
+      const res = await fetch(`https://api-vercel-6ggo3e1uo-zealotcodezys-projects.vercel.app/api/work?name=${encodeURIComponent(name)}`);
+      const response = await res.json();
       const container = document.getElementById('result-content');
-      if (data.names && data.names.length > 0) {
+      if (response.success && response.data && response.data.length > 0) {
+        const names = response.data.map(item => item.name).filter(name => name);
+        if (names.length > 0) {
         const ol = document.createElement('ol');
         ol.className = 'result-list';
-        data.names.forEach(n => {
+                  names.forEach(n => {
           const li = document.createElement('li');
           li.innerHTML = `${n} <a href="/workDetail.html?name=${encodeURIComponent(n)}">点击查看详情</a>`;
           ol.appendChild(li);
