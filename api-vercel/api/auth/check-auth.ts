@@ -13,14 +13,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const authHeader = req.headers.authorization;
     
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return errorResponse(res, '未提供认证令牌', 401);
+      return successResponse(res, { authenticated: false }, '未认证');
     }
 
     const token = authHeader.substring(7);
     const decoded = verifyToken(token);
 
     if (!decoded) {
-      return errorResponse(res, '无效的认证令牌', 401);
+      return successResponse(res, { authenticated: false }, '无效的认证令牌');
     }
 
     // 从数据库获取最新的用户信息
@@ -35,6 +35,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     return successResponse(res, {
+      authenticated: true,
       user: {
         id: user.id,
         username: user.username,

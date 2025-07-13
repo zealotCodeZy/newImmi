@@ -18,7 +18,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 // 获取工作信息
 async function getWorkInfo(req: VercelRequest, res: VercelResponse) {
   try {
-    const { zipcode } = req.query;
+    const { zipcode, name } = req.query;
 
     let query = supabase
       .from('work_info')
@@ -28,6 +28,11 @@ async function getWorkInfo(req: VercelRequest, res: VercelResponse) {
     // 如果指定了邮编，则过滤
     if (zipcode) {
       query = query.eq('zipcode', zipcode);
+    }
+
+    // 如果指定了公司名称，则过滤
+    if (name) {
+      query = query.ilike('name', `%${name}%`);
     }
 
     const { data, error } = await query;

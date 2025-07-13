@@ -4,9 +4,17 @@ import jwt from 'jsonwebtoken';
 
 // CORS 处理
 export function handleCors(req: VercelRequest, res: VercelResponse) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  // 获取请求的Origin
+  const origin = req.headers.origin;
+  
+  // 允许所有Vercel部署的域名
+  if (origin && (origin.includes('vercel.app') || origin.includes('newimmi.vip') || origin.includes('localhost'))) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+  }
+  
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, Cache-Control, Pragma');
 
   if (req.method === 'OPTIONS') {
     res.status(200).end();
