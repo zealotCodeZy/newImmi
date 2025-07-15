@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>会员状态</title>
+  <link href="/static/style.css" rel="stylesheet">
+</head>
+<body>
+  <header class="navbar">
+    <a href="/" class="logo">新移民防踩坑</a>
+    <small class="subtitle">这里有最全的攻略帮你快速开局。只放干货，杜绝踩坑。</small>
+    <button class="menu-toggle" aria-label="Toggle menu" id="menu-toggle">
+      ☰
+    </button>
+    <nav class="nav-links" id="nav-links">
+      <a href="/work.html">找工</a>
+      <a href="/workBlack.html">找工黑名单</a>
+      <a href="/rent.html">租房</a>
+      <a href="/rentBlack.html">租房黑名单</a>
+      <a href="/tel.html">电话卡</a>
+      <a href="/bank.html">银行卡</a>
+      <a href="/drive.html">驾照</a>
+      <a href="/id.html">身份</a>
+      <a href="/contact.html">联系我们</a>
+      <a href="/res.html">免责与隐私</a>
+      <span id="auth-links">
+        <a href="/login.html" id="login-link">登录</a>
+        <a href="/register.html" id="register-link">注册</a>
+      </span>
+    </nav>
+  </header>
+  <main class="container">
+    <div class="content">
+      <div class="auth-container">
+        <div id="loading" class="loading">
+          <p>加载中...</p>
+        </div>
+        <div id="membership-info" style="display:none;">
+          <h2>会员状态</h2>
+          <div id="status-content"></div>
+          <div id="payment-history" style="margin-top: 30px;">
+            <h3>支付历史</h3>
+            <div id="payments-list"></div>
+          </div>
+          <div class="action-buttons" style="margin-top: 30px;">
+            <a href="/membership.html" class="btn btn-primary" id="renew-btn" style="display:none;">续费会员</a>
+            <a href="/rentBlack.html" class="btn btn-secondary">租房黑名单</a>
+            <a href="/workBlack.html" class="btn btn-secondary">找工黑名单</a>
+            <a href="/index.html" class="btn btn-secondary">返回首页</a>
+          </div>
+        </div>
+        <div id="error-message" style="display:none;" class="alert alert-danger">
+          <p>加载失败，请稍后重试</p>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer class="site-footer">
+    Copyright ©2025 新移民第一站 All Rights Reserved
+  </footer>
+  <script src="/static/updateAuthLinks.js"></script>
+  <script src="/static/mobile-nav.js"></script>
+  <script>
+    async function loadMembershipStatus() {
+      const loading = document.getElementById('loading');
+      const membershipInfo = document.getElementById('membership-info');
+      const errorMessage = document.getElementById('error-message');
+      
+      try {
+        const token = localStorage.getItem('authToken');
+        if (!token) {
+          window.location.href = '/login.html';
+          return;
+        }
+        
+        const response = await fetch('https://api.newimmi.vip/api/membership?action=status', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          credentials: 'include'
+        });
+        
+        if (!response.ok) {
+          throw new Error('获取会员状态失败');
+        }
+        
+        const data = await response.json();
+        
+        if (data.success) {
+          displayMembershipInfo(data.data);
+        } else {
+          throw new Error(data.message || '获取会员状态失败');
+        }
+        
+      } catch (error) {
+        console.error('加载会员状态失败:', error);
+        loading.style.display = 'none';
+        errorMessage.style.display = 'block';
+      }
+    }
+    
+    function displayMembershipInfo(data) {
+      const loading = document.getElementById('loading');
+      const membershipInfo = document.getElementById('membership-info');
+      const statusContent = document.getElementById('status-content');
+      const paymentsList = document.getElementById('payments-list');
+      const renewBtn = document.getElementById('renew-btn');
+      
+      loading.style.display = 'none';
+      membershipInfo.style.display = 'block';
+      
+      const user = data.user;
+      const payments = data.payments;
+      
+      // 显示会员状态
+      let statusHtml = `
+        <div class="membership-card">
+          <div class="user-info">
+            <h3>用户信息</h3>
+            <p><strong>用户名:</strong> ${user.username}</p>
+            <p><strong>邮箱:</strong> ${user.email}</p>
+            <p><strong>注册时间:</strong> ${new Date(user.created_at).toLocaleDateString('zh-CN')}</p>
+          </div>
+          <div class="membership-details">
+            <h3>会员状态</h3>
+      `;
+      
+      if (user.is_member) {
+        const expiresDate = new Date(user.membership_expires).toLocaleDateString('zh-CN');
+        const statusClass = user.membership_status === 'expiring_soon' ? 'warning' : 'success';
+        
+        statusHtml += `
+          <p class="status ${statusClass}">
+            <strong>状态:</strong> 
+            ${user.membership_status === 'expiring_soon' ? '⚠️ 即将过期' : '✅ 活跃会员'}
+          </p>
+          <p><strong>过期时间:</strong> ${expiresDate}</p>
+          <p><strong>剩余天数:</strong> ${user.days_remaining} 天</p>
+        `;
+        
+        if (user.days_remaining <= 7) {
+          renewBtn.style.display = 'inline-block';
+          statusHtml += `<p class="warning-text">⚠️ 您的会员即将过期，请及时续费</p>`;
+        }
+      } else {
+        statusHtml += `
+          <p class="status expired"><strong>状态:</strong> ❌ 非会员</p>
+          <p>购买会员后可享受黑名单查询等特权功能</p>
+        `;
+        renewBtn.style.display = 'inline-block';
+        renewBtn.textContent = '购买会员';
+      }
+      
+      statusHtml += `
+          </div>
+        </div>
+      `;
+      
+      statusContent.innerHTML = statusHtml;
+      
+      // 显示支付历史
+      if (payments && payments.length > 0) {
+        let paymentsHtml = '<div class="payments-table">';
+        payments.forEach(payment => {
+          const paymentDate = new Date(payment.payment_date).toLocaleDateString('zh-CN');
+          const statusClass = payment.status === 'completed' ? 'success' : 'failed';
+          
+          paymentsHtml += `
+            <div class="payment-row">
+              <div class="payment-info">
+                <span class="amount">$${payment.amount}</span>
+                <span class="date">${paymentDate}</span>
+                <span class="status ${statusClass}">${payment.status === 'completed' ? '成功' : '失败'}</span>
+              </div>
+              <div class="transaction-id">交易ID: ${payment.transaction_id}</div>
+            </div>
+          `;
+        });
+        paymentsHtml += '</div>';
+        paymentsList.innerHTML = paymentsHtml;
+      } else {
+        paymentsList.innerHTML = '<p>暂无支付记录</p>';
+      }
+    }
+    
+    // 页面加载时获取会员状态
+    document.addEventListener('DOMContentLoaded', loadMembershipStatus);
+    
+    // 强制更新认证链接
+    if(typeof updateAuthLinks === 'function') {
+      updateAuthLinks();
+    }
+  </script>
+  <style>
+    .loading {
+      text-align: center;
+      padding: 40px;
+    }
+    
+    .membership-card {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    
+    .user-info, .membership-details {
+      margin-bottom: 20px;
+    }
+    
+    .status.success {
+      color: #28a745;
+    }
+    
+    .status.warning {
+      color: #ffc107;
+    }
+    
+    .status.expired {
+      color: #dc3545;
+    }
+    
+    .warning-text {
+      color: #ffc107;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    
+    .payments-table {
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    
+    .payment-row {
+      padding: 15px;
+      border-bottom: 1px solid #eee;
+      background: #f9f9f9;
+    }
+    
+    .payment-row:last-child {
+      border-bottom: none;
+    }
+    
+    .payment-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 5px;
+    }
+    
+    .amount {
+      font-weight: bold;
+      font-size: 18px;
+    }
+    
+    .status.success {
+      color: #28a745;
+      font-weight: bold;
+    }
+    
+    .status.failed {
+      color: #dc3545;
+      font-weight: bold;
+    }
+    
+    .transaction-id {
+      font-size: 12px;
+      color: #666;
+    }
+    
+    .action-buttons .btn {
+      margin: 5px;
+      display: inline-block;
+    }
+  </style>
+</body>
+</html>

@@ -72,7 +72,7 @@
         if (token) {
           headers['Authorization'] = `Bearer ${token}`;
         }
-        const resp = await fetch('https://api-vercel-pa9yg7tny-zealotcodezys-projects.vercel.app/api/auth/check-auth', {
+        const resp = await fetch('https://api.newimmi.vip/api/auth/check-auth', {
           credentials: 'include',
           headers: headers
         });
@@ -110,7 +110,7 @@
       }
       resultDiv.textContent = '查询中...';
       try {
-        const resp = await fetch(`https://api-vercel-pa9yg7tny-zealotcodezys-projects.vercel.app/api/rent?zipcode=${zipcode}`, {credentials: 'include'});
+        const resp = await fetch(`https://api.newimmi.vip/api/rent?zipcode=${zipcode}`, {credentials: 'include'});
         const data = await resp.json();
         if (data.success && data.data.addresses.length > 0) {
           resultDiv.innerHTML = '<b>黑名单房源地址：</b><ul>' + data.data.addresses.map(addr => `<li>${addr}</li>`).join('') + '</ul>';

@@ -71,7 +71,7 @@
         if (token) {
           headers['Authorization'] = `Bearer ${token}`;
         }
-        const resp = await fetch('https://api-vercel-pa9yg7tny-zealotcodezys-projects.vercel.app/api/auth/check-auth', {
+        const resp = await fetch('https://api.newimmi.vip/api/auth/check-auth', {
           credentials: 'include',
           headers: headers
         });
@@ -109,7 +109,7 @@
       }
       resultDiv.textContent = '查询中...';
       try {
-        const resp = await fetch(`https://api-vercel-pa9yg7tny-zealotcodezys-projects.vercel.app/api/work/detail/${encodeURIComponent(name)}`, {credentials: 'include'});
+        const resp = await fetch(`https://api.newimmi.vip/api/work/detail/${encodeURIComponent(name)}`, {credentials: 'include'});
         const data = await resp.json();
         if (data.success) {
           resultDiv.innerHTML = `<b>公司名称：</b>${data.data.name}<br><b>地址：</b>${data.data.address}<br><b>详情：</b>${data.data.content}`;

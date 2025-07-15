@@ -7,10 +7,27 @@ export function handleCors(req: VercelRequest, res: VercelResponse) {
   // 获取请求的Origin
   const origin = req.headers.origin;
   
-  // 允许所有Vercel部署的域名
-  if (origin && (origin.includes('vercel.app') || origin.includes('newimmi.vip') || origin.includes('localhost'))) {
+  // 允许的域名列表
+  const allowedOrigins = [
+    'https://www.newimmi.vip',
+    'https://newimmi.vip',
+    'https://newimmi-static-l8r7178kp-zealotcodezys-projects.vercel.app',
+    'https://newimmi-static-qp6lsk1sa-zealotcodezys-projects.vercel.app',
+    'https://newimmi-static-q9gngqrro-zealotcodezys-projects.vercel.app',
+    'https://newimmi-static-ceorc3ebn-zealotcodezys-projects.vercel.app',
+    'https://newimmi-static-dtqff4a2m-zealotcodezys-projects.vercel.app',
+    'http://localhost:3000',
+    'http://localhost:5000',
+    'http://127.0.0.1:5002'
+  ];
+  
+  // 如果origin在允许列表中，或者包含vercel.app域名，则允许
+  if (origin && (allowedOrigins.includes(origin) || origin.includes('vercel.app') || origin.includes('localhost'))) {
     res.setHeader('Access-Control-Allow-Origin', origin);
     res.setHeader('Access-Control-Allow-Credentials', 'true');
+  } else {
+    // 如果没有origin（比如直接API调用），允许所有
+    res.setHeader('Access-Control-Allow-Origin', '*');
   }
   
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');

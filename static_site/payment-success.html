@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>支付成功</title>
+  <link href="/static/style.css" rel="stylesheet">
+</head>
+<body>
+  <header class="navbar">
+    <a href="/" class="logo">新移民防踩坑</a>
+    <small class="subtitle">这里有最全的攻略帮你快速开局。只放干货，杜绝踩坑。</small>
+    <button class="menu-toggle" aria-label="Toggle menu" id="menu-toggle">
+      ☰
+    </button>
+    <nav class="nav-links" id="nav-links">
+      <a href="/work.html">找工</a>
+      <a href="/workBlack.html">找工黑名单</a>
+      <a href="/rent.html">租房</a>
+      <a href="/rentBlack.html">租房黑名单</a>
+      <a href="/tel.html">电话卡</a>
+      <a href="/bank.html">银行卡</a>
+      <a href="/drive.html">驾照</a>
+      <a href="/id.html">身份</a>
+      <a href="/contact.html">联系我们</a>
+      <a href="/res.html">免责与隐私</a>
+      <span id="auth-links">
+        <a href="/login.html" id="login-link">登录</a>
+        <a href="/register.html" id="register-link">注册</a>
+      </span>
+    </nav>
+  </header>
+  <main class="container">
+    <div class="content">
+      <div class="auth-container">
+        <div class="success-message">
+          <h2>🎉 支付成功！</h2>
+          <p>恭喜您成为新移民防踩坑的会员！</p>
+          <div class="membership-benefits">
+            <h3>您现在可以享受以下特权：</h3>
+            <ul>
+              <li>✅ 访问租房黑名单查询功能</li>
+              <li>✅ 访问找工黑名单查询功能</li>
+              <li>✅ 专属客服支持</li>
+            </ul>
+          </div>
+          <div class="action-buttons">
+            <a href="/rentBlack.html" class="btn btn-primary">查询租房黑名单</a>
+            <a href="/workBlack.html" class="btn btn-primary">查询找工黑名单</a>
+            <a href="/index.html" class="btn btn-secondary">返回首页</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer class="site-footer">
+    Copyright ©2025 新移民第一站 All Rights Reserved
+  </footer>
+  <script src="/static/updateAuthLinks.js"></script>
+  <script src="/static/mobile-nav.js"></script>
+  <script>
+    // 强制更新认证链接
+    console.log('payment-success.html 页面加载完成，强制更新认证链接');
+    if(typeof updateAuthLinks === 'function') {
+      updateAuthLinks();
+    } else {
+      console.error('updateAuthLinks 函数未找到');
+    }
+  </script>
+  <style>
+    .success-message {
+      text-align: center;
+      padding: 40px 20px;
+    }
+    .success-message h2 {
+      color: #28a745;
+      margin-bottom: 20px;
+    }
+    .membership-benefits {
+      margin: 30px 0;
+      text-align: left;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .membership-benefits ul {
+      list-style: none;
+      padding: 0;
+    }
+    .membership-benefits li {
+      padding: 8px 0;
+      font-size: 16px;
+    }
+    .action-buttons {
+      margin-top: 30px;
+    }
+    .action-buttons .btn {
+      margin: 10px;
+      display: inline-block;
+    }
+    .btn-secondary {
+      background-color: #6c757d;
+      color: white;
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+    }
+    .btn-secondary:hover {
+      background-color: #5a6268;
+    }
+  </style>
+</body>
+</html>

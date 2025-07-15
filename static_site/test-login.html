@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录测试</title>
+</head>
+<body>
+    <h1>登录测试页面</h1>
+    <div id="result"></div>
+    <button onclick="testLogin()">测试登录</button>
+    
+    <script>
+        async function testLogin() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '测试中...';
+            
+            try {
+                console.log('开始测试登录...');
+                
+                const data = {
+                    username: 'testuser',
+                    password: 'testpass123'
+                };
+                
+                console.log('发送数据:', data);
+                console.log('API URL:', 'https://api.newimmi.vip/api/auth/login');
+                
+                const resp = await fetch('https://api.newimmi.vip/api/auth/login', {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify(data)
+                });
+                
+                console.log('响应状态:', resp.status);
+                console.log('响应头:', Object.fromEntries(resp.headers.entries()));
+                
+                if (!resp.ok) {
+                    throw new Error(`HTTP error! status: ${resp.status}`);
+                }
+                
+                const result = await resp.json();
+                console.log('响应数据:', result);
+                
+                resultDiv.innerHTML = `
+                    <h3>登录成功!</h3>
+                    <p>状态: ${resp.status}</p>
+                    <p>消息: ${result.message}</p>
+                    <p>用户: ${result.data.user.username}</p>
+                    <p>Token: ${result.data.token.substring(0, 50)}...</p>
+                `;
+                
+            } catch (error) {
+                console.error('登录错误:', error);
+                resultDiv.innerHTML = `
+                    <h3>登录失败</h3>
+                    <p>错误: ${error.message}</p>
+                    <p>详情: ${error.stack}</p>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>

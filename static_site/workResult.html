@@ -59,7 +59,7 @@
     async function fetchResult() {
       const name = getQueryParam('name');
       document.getElementById('result-title').textContent = `公司名字包含"${name}"的黑名单：`;
-      const res = await fetch(`https://api-vercel-6ggo3e1uo-zealotcodezys-projects.vercel.app/api/work?name=${encodeURIComponent(name)}`);
+      const res = await fetch(`https://api.newimmi.vip/api/work?name=${encodeURIComponent(name)}`);
       const response = await res.json();
       const container = document.getElementById('result-content');
       if (response.success && response.data && response.data.length > 0) {
