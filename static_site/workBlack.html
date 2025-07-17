@@ -49,9 +49,10 @@
       </div>
       <div id="search-form" style="display:none;">
         <form id="nameForm" class="auth-form">
-          <label for="name">请在下面的框中输入想要查询的公司名称，看看这家公司是否已经有人踩坑。只能输入中英文，不允许其它任何字符和空格。</label>
-          <input type="text" id="name" name="name" class="form-control" required pattern="^[\u4e00-\u9fa5a-zA-Z]+$" title="请输入要查询的公司名称">
-          <button type="submit" class="btn btn-primary">查询</button>
+          <p><label for="name">请在下面的框中输入想要查询的公司名称，看看这家公司是否已经有人踩坑。只能输入中英文，不允许其它任何字符和空格。</label></p>
+          <p class="center-block no-indent"><input type="text" id="name" name="name" class="form-control" required pattern="^[\u4e00-\u9fa5a-zA-Z]+$" title="请输入要查询的公司名称"></p>
+          <br>
+          <p class="center-block no-indent"><button type="submit" class="btn btn-primary">查询</button></p>
         </form>
         <div id="result" style="margin-top:20px;"></div>
       </div>
@@ -111,8 +112,20 @@
       try {
         const resp = await fetch(`https://api.newimmi.vip/api/work/detail/${encodeURIComponent(name)}`, {credentials: 'include'});
         const data = await resp.json();
-        if (data.success) {
-          resultDiv.innerHTML = `<b>公司名称：</b>${data.data.name}<br><b>地址：</b>${data.data.address}<br><b>详情：</b>${data.data.content}`;
+        if (data.success && data.data.companies && data.data.companies.length > 0) {
+          let resultHtml = '<b>黑名单公司信息：</b><ul>';
+          data.data.companies.forEach(company => {
+            resultHtml += `<li>
+              <div style="margin-bottom: 15px; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                <b>公司名称：</b>${company.name || '未提供'}<br>
+                <b>地址：</b>${company.address || '未提供'}<br>
+                <b>邮编：</b>${company.zipcode || '未提供'}<br>
+                <b>详情：</b>${company.content || '无详细信息'}
+              </div>
+            </li>`;
+          });
+          resultHtml += '</ul>';
+          resultDiv.innerHTML = resultHtml;
         } else {
           resultDiv.innerHTML = '<span style="color:green;">该公司暂无黑名单记录！</span>';
         }

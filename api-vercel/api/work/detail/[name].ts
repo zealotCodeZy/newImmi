@@ -21,19 +21,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       .from('work_info')
       .select('*')
       .ilike('name', `%${name}%`)
-      .order('created_at', { ascending: false })
-      .limit(1)
-      .single();
+      .order('created_at', { ascending: false });
 
     if (error) {
-      if (error.code === 'PGRST116') {
-        return errorResponse(res, '未找到相关信息', 404);
-      }
       console.error('Database error:', error);
       return errorResponse(res, '获取工作信息失败');
     }
 
-    return successResponse(res, data, '获取成功');
+    if (!data || data.length === 0) {
+      return errorResponse(res, '未找到相关信息', 404);
+    }
+
+    return successResponse(res, { companies: data }, '获取成功');
 
   } catch (error) {
     console.error('Get work detail error:', error);

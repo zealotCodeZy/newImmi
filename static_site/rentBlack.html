@@ -112,8 +112,19 @@
       try {
         const resp = await fetch(`https://api.newimmi.vip/api/rent?zipcode=${zipcode}`, {credentials: 'include'});
         const data = await resp.json();
-        if (data.success && data.data.addresses.length > 0) {
-          resultDiv.innerHTML = '<b>黑名单房源地址：</b><ul>' + data.data.addresses.map(addr => `<li>${addr}</li>`).join('') + '</ul>';
+        if (data.success && data.data && data.data.length > 0) {
+          let resultHtml = '<b>黑名单房源信息：</b><ul>';
+          data.data.forEach(rent => {
+            resultHtml += `<li>
+              <div style="margin-bottom: 15px; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                <b>地址：</b>${rent.address || '未提供'}<br>
+                <b>邮编：</b>${rent.zipcode || '未提供'}<br>
+                <b>详情：</b>${rent.content || '无详细信息'}
+              </div>
+            </li>`;
+          });
+          resultHtml += '</ul>';
+          resultDiv.innerHTML = resultHtml;
         } else {
           resultDiv.innerHTML = '<span style="color:green;">该地区暂无黑名单房源！</span>';
         }
