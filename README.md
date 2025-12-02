@@ -164,10 +164,7 @@ STRIPE_WEBHOOK_SECRET=your_webhook_secret
 - `membership.html` - 会员购买
 - `login.html` / `register.html` - 登录注册
 
-## 🌐 在线访问
 
-- **前端**: https://your-site.vercel.app
-- **API**: https://your-api.vercel.app
 
 ## 📄 许可证
 
